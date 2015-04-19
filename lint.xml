@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="NewApi">
+        <ignore path="src/co/herxun/impp/activity/ChatActivity.java" />
+        <ignore path="src/co/herxun/impp/utils/ImageHelper.java" />
+    </issue>
+</lint>

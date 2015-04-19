@@ -1,0 +1,172 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/no4"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <FrameLayout
+        android:id="@+id/remoteVideoView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </FrameLayout>
+
+    <View
+        android:id="@+id/viewTouch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/localVideoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="96dp" >
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <View
+            android:id="@+id/live_top_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.15" />
+
+        <FrameLayout
+            android:id="@+id/userInfoFrame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.85" >
+
+            <LinearLayout
+                android:id="@+id/userInfoView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/imgPhoto"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/textUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textColor="@color/no5"
+                        android:textSize="24dp" />
+
+                    <TextView
+                        android:id="@+id/textStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="TextView"
+                        android:textColor="@color/no5"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/controlView"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/btnReject"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#D6503e"
+            android:text="@string/anlive_reject"
+            android:textColor="@color/no5"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btnAnswer"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="#8fc31f"
+            android:text="@string/anlive_accept"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/functionView"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/btnMute"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@color/no2"
+            android:text="@string/anlive_mute"
+            android:textColor="@color/no5"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btnDisableVideo"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@color/no2"
+            android:text="@string/anlive_disable_camera"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btnHangUp"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="#D6503e"
+            android:text="@string/anlive_hangup"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

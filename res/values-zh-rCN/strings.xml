@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IM++</string>
+    <string name="tab_title_chat">聊天</string>
+    <string name="tab_title_friend">好友</string>
+    <string name="tab_title_explore">发现</string>
+    <string name="tab_title_setting">设置</string>
+
+    <!-- General -->
+    <string name="general_ok">确认</string>
+    <string name="general_cancel">取消</string>
+    <string name="general_press_again_to_exit">再按一次退出应用程序</string>
+    
+    <!-- Login -->
+    <string name="login_sign_up">注册</string>
+    <string name="login_sign_in">登录</string>
+    <string name="login_failed">您的用户名称必须是大小写的英文字母</string>
+    <string name="login_username">用户名称</string>
+    <string name="login_pwd">密码</string>
+
+    <!-- Friend -->
+    <string name="friend_topic_list">群组列表</string>
+    <string name="friend_friend_list">好友列表</string>
+    <string name="friend_friend_request">好友请求</string>
+    <string name="friend_action_new_friend">加入新好友</string>
+    <string name="friend_action_new_topic">新增群组聊天</string>
+    <string name="friend_search_username">搜寻好友名称</string>
+    <string name="friend_request_status_add">加入好友</string>
+    <string name="friend_request_status_sent">送出请求</string>
+    <string name="friend_request_status_isfriend">已是好友</string>
+    <string name="friend_request_status_approved">已接受</string>
+    <string name="friend_request_status_rejected">已拒绝</string>
+    <string name="friend_request_search">搜寻好友名称并按下搜寻</string>
+    <string name="friend_list_search">搜寻好友和群组</string>
+    <string name="friend_request_sent">发送好友请求成功</string>
+    <string name="friend_request_rejected">拒绝好友请求成功</string>
+    <string name="friend_request_accepted">好友邀请同意</string>
+    <string name="friend_request_received">收到好友邀请</string>
+
+    <!-- Chat -->
+    <string name="readed">已读</string>
+    <string name="morning">上午</string>
+    <string name="afternoon">下午</string>
+    <string name="chat_take_picture">拍摄照片</string>
+    <string name="chat_pick_picture">选择照片</string>
+    <string name="chat_record">录製声音</string>
+    <string name="chat_voice_chat">语音通话</string>
+    <string name="chat_video_chat">视频通话</string>
+    <string name="chat_view_picture">查看照片</string>
+    <string name="chat_received_image"># 向您传送了图片</string>
+    <string name="chat_received_record">您收到来自 # 的声音信息</string>
+    <string name="chat_send_image">图片已传送</string>
+    <string name="chat_send_record">声音信息已传送</string>
+    <string name="chat_record_press">按住即可录音</string>
+    <string name="chat_record_release">放开即可传送</string>
+    <string name="chat_recording">录音中</string>
+    <string name="chat_record_tooshort">声音讯息过短</string>
+    <string name="chat_record_release_to_cancel">放开以取消传送</string>
+    <string name="chat_send">送出</string>
+    <string name="chat_record_cancel">取消</string>
+    <string name="chat_topic_edit">编辑群组名称</string>
+    <string name="chat_topic_invite">邀请成员</string>
+    <string name="chat_topic_leave">退出群组</string>
+    <string name="chat_topic_leave_owner">退出群组并解散群组</string>
+    <string name="chat_delete_chat_confirm">确定要删除此聊天吗？</string>
+    
+    <!-- Live -->
+    <string name="anlive_received_invitation">语音通话来电中...</string>
+    <string name="anlive_waiting_reply">正在等候对方接受邀请...</string>
+    <string name="anlive_oncall">视频通话进行中...</string>
+    <string name="anlive_mute">静音</string>
+    <string name="anlive_unmute">取消静音</string>
+    <string name="anlive_hangup">挂断</string>
+    <string name="anlive_reject">拒绝</string>
+    <string name="anlive_accept">接听</string>
+    <string name="anlive_enable_camera">开启镜头</string>
+    <string name="anlive_disable_camera">关闭镜头</string>
+    <string name="anlive_push_call">語音通話來電</string>
+    <string name="anlive_push_video_call">視訊通話來電</string>
+
+    <!-- Settings -->
+    <string name="else_sign_out">登出</string>
+    <string name="setting_send_msg">传送讯息</string>
+    
+    <!-- Notification -->
+    <string name="noti_image">向您传送了图片</string>
+    <string name="noti_record">您收到来自 # 的声音讯息</string>
+    <string name="noti_voice_call">语音通话来电中</string>
+    <string name="noti_video_call">视讯通话来电中</string>
+
+    <!-- Wall -->
+    <string name="wall_circle">朋友圈</string>
+</resources>

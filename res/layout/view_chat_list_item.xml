@@ -1,0 +1,68 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/chat_list_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/chat_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@+id/chat_list_item_timestamp"
+        android:layout_toRightOf="@+id/chat_list_item_icon"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textColor="@color/no11"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/chat_list_item_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chat_list_item_name"
+        android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/chat_list_item_badge"
+        android:layout_toRightOf="@+id/chat_list_item_icon"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/no10"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/chat_list_item_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/no8"
+        android:textSize="12dp" />
+
+    <co.herxun.impp.view.BadgeView
+        android:id="@+id/chat_list_item_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp" />
+
+</RelativeLayout>
