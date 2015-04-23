@@ -224,7 +224,7 @@ public class FriendListAdapter extends BaseAdapter {
 			
 			View viewLine = new View(ct);
 			viewLine.setBackgroundColor(ct.getResources().getColor(R.color.no7));
-			RelativeLayout.LayoutParams rlpLine = new RelativeLayout.LayoutParams(-1,Utils.px2Dp(ct, 2));
+			RelativeLayout.LayoutParams rlpLine = new RelativeLayout.LayoutParams(-1,Utils.px2Dp(ct, 1));
 			rlpLine.topMargin = Utils.px2Dp(ct, 8);
 			rlpLine.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 			addView(viewLine,rlpLine);
@@ -236,7 +236,7 @@ public class FriendListAdapter extends BaseAdapter {
 			textTitle = new TextView(ct);
 			int padding = 0;
 			textTitle.setPadding(padding, padding, padding, padding);
-			textTitle.setTextColor(ct.getResources().getColor(R.color.no7));
+			textTitle.setTextColor(ct.getResources().getColor(R.color.no9));
 			addView(textTitle,rlpTextTitle);
 			
 		}

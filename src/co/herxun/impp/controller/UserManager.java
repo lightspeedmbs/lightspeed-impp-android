@@ -137,7 +137,10 @@ public class UserManager extends Observable{
 									JSONObject userJson = users.getJSONObject(i);
 									User user = new User(userJson);
 									saveUser(user);
-									userList.add(user);
+									
+									if(!user.userId.equals(currentUser.userId)){
+										userList.add(user);
+									}
 								}
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
@@ -398,12 +401,11 @@ public class UserManager extends Observable{
 		SpfHelper.getInstance(ct).clearUserInfo();
 		try {
 			IMManager.getInstance(ct).getAnIM().unbindAnPushService(currentUser.clientId);
-			IMManager.getInstance(ct).getAnIM().disconnect();
+			IMManager.getInstance(ct).disconnect(true);
 		} catch (ArrownockException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ct.startActivity(new Intent(ct,LoginActivity.class));
 	}
 	
 	public void updateMyPhoto(byte[] data,final IAnSocialCallback lsr){

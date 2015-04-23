@@ -6,6 +6,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <RelativeLayout
+        android:id="@+id/explore_btn_wall"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_alignParentLeft="true"
@@ -41,7 +42,7 @@
         <co.herxun.impp.view.BadgeView
             android:id="@+id/explore_badgeView"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"

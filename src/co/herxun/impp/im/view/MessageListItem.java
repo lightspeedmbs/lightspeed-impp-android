@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -130,6 +131,7 @@ public class MessageListItem extends RelativeLayout{
 		viewContent.addView(textContent,rlpContent);
 		
 		imgAttechment = new ImageView(ct);
+		imgAttechment.setScaleType(ScaleType.CENTER_CROP);
 		imgAttechment.setId(id++);
 		viewContent.addView(imgAttechment);
 		
@@ -156,10 +158,20 @@ public class MessageListItem extends RelativeLayout{
 			
 		}else if(msg.type.equals(Message.TYPE_IMAGE)){
 			imgAttechment.setVisibility(View.VISIBLE);
-			RelativeLayout.LayoutParams rlpAtch = new RelativeLayout.LayoutParams(Utils.px2Dp(ct, 100),Utils.px2Dp(ct, 100));
+			Bitmap bitmap = BitmapFactory.decodeByteArray(msg.content, 0, msg.content.length);
+			DBug.e(bitmap.getWidth()+"?",bitmap.getHeight()+"?");
+			int imgViewW = 0,imgViewH;
+			if(bitmap.getWidth()>bitmap.getHeight()){
+				imgViewW = Utils.px2Dp(ct, 100);
+				imgViewH = bitmap.getHeight() * (Utils.px2Dp(ct, 100) / bitmap.getWidth());
+			}else{
+				imgViewH = Utils.px2Dp(ct, 100);
+				imgViewW = bitmap.getWidth() * (Utils.px2Dp(ct, 100) / bitmap.getHeight());
+			}
+			
+			RelativeLayout.LayoutParams rlpAtch = new RelativeLayout.LayoutParams(imgViewW,imgViewH);
 			rlpAtch.addRule(RelativeLayout.BELOW, textUserName.getId());
 			imgAttechment.setLayoutParams(rlpAtch);
-			Bitmap bitmap = BitmapFactory.decodeByteArray(msg.content, 0, msg.content.length);
 			imgAttechment.setImageBitmap(bitmap);
 			imgAttechment.setOnClickListener(new OnClickListener(){
 				@Override

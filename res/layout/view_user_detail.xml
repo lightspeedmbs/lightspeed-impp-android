@@ -24,6 +24,7 @@
             android:id="@+id/user_detail_img"
             android:layout_width="148dp"
             android:layout_height="148dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/friend_default" />
 
         <TextView

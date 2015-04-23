@@ -37,7 +37,7 @@ import com.arrownock.live.LocalVideoView;
 import com.arrownock.live.VideoState;
 import com.arrownock.live.VideoView;
 
-public class VideoActivity extends Activity implements IAnLiveEventListener {
+public class VideoActivity extends BaseActivity implements IAnLiveEventListener {
     public static VideoActivity instance;
     private Button btnAnswer, btnReject, btnMute, btnDisableCamera, btnHangUp;
     private FrameLayout remoteVideoView, localVideoView, userInfoFrame;
@@ -206,10 +206,10 @@ public class VideoActivity extends Activity implements IAnLiveEventListener {
 
     private void setMode() {
         if (type.equals(TYPE_VIDEO)) {
-            // ivDisableVideo.setVisibility(View.GONE);
+            textStatus.setText(R.string.anlive_received_video_invitation);
         } else if (type.equals(TYPE_VOICE)) {
             btnDisableCamera.setVisibility(View.GONE);
-            textStatus.setText(R.string.anlive_received_invitation);
+            textStatus.setText(R.string.anlive_received_voice_invitation);
         }
         
     	controlView.setVisibility(View.GONE);
@@ -218,9 +218,9 @@ public class VideoActivity extends Activity implements IAnLiveEventListener {
         case INVITATION_RECEIVED:
         	controlView.setVisibility(View.VISIBLE);
             if (type.equals("video")) {
-                textStatus.setText(R.string.anlive_received_invitation);
+                textStatus.setText(R.string.anlive_received_video_invitation);
             } else if (type.equals("voice")) {
-                textStatus.setText(R.string.anlive_received_invitation);
+                textStatus.setText(R.string.anlive_received_voice_invitation);
             }
             break;
         case INVITATION_SEND:
@@ -294,7 +294,11 @@ public class VideoActivity extends Activity implements IAnLiveEventListener {
             @Override
             public void run() {
                 time++;
-                textStatus.setText(getString(R.string.anlive_oncall) + " " + getTimeStr());
+                if (type.equals(TYPE_VIDEO)) {
+                    textStatus.setText(getString(R.string.anlive_video_oncall) + " " + getTimeStr());
+                } else if (type.equals(TYPE_VOICE)) {
+                    textStatus.setText(getString(R.string.anlive_voice_oncall) + " " + getTimeStr());
+                }
                 timingHandler.postDelayed(this, 1000);
                 checkControlUiVisibility();
             }

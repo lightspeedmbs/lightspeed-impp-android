@@ -10,6 +10,7 @@ public class Constant {
 	public final static String FRIEND_REQUEST_TYPE_APPROVE = "approve";
 
 	public final static String INTENT_EXTRA_KEY_CLIENT= "client";
+	public final static String INTENT_EXTRA_KEY_POST_ID= "post";
 	public final static String INTENT_EXTRA_KEY_CHAT = "chat";
 	public final static String INTENT_EXTRA_KEY_TOPIC = "topic";
 	public final static String INTENT_EXTRA_KEY_TOPIC_EDIT_TYPE = "topic_edit_type";

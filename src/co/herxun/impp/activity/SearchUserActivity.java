@@ -35,7 +35,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.OnEditorActionListener;
 
-public class SearchUserActivity extends Activity {
+public class SearchUserActivity extends BaseActivity {
 	private AppBar mAppbar;
 	private ListView mListView;
 	private UserListAdapter mUserListAdapter;
@@ -68,11 +68,11 @@ public class SearchUserActivity extends Activity {
 		mAppbar.getEditText().setVisibility(View.VISIBLE);
 		mAppbar.getEditText().setSingleLine();
 		mAppbar.getEditText().setHint(R.string.friend_request_search);
-		mAppbar.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+		mAppbar.getEditText().setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		mAppbar.getEditText().setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 					 fillRemoteData(mAppbar.getEditText().getText().toString());
 				}
 				return false;

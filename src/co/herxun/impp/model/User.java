@@ -58,7 +58,7 @@ public class User extends Model implements Serializable{
 		return fs.size()>0;
 	}
 	
-	public void update() {
+	public User update() {
 		User userExisit = new Select().from(User.class)
 				.where("clientId = ? ", clientId).executeSingle();
 		
@@ -77,6 +77,7 @@ public class User extends Model implements Serializable{
 		}
 
 		userExisit.save();
+		return userExisit;
 	}
 	
 	public boolean same(){

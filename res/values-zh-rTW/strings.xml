@@ -66,9 +66,11 @@
     <string name="chat_delete_chat_confirm">確定要刪除此聊天嗎？</string>
     
     <!-- Live -->
-    <string name="anlive_received_invitation">語音通話來電中...</string>
+    <string name="anlive_received_voice_invitation">語音通話來電中...</string>
+    <string name="anlive_received_video_invitation">視訊通話來電中...</string>
+    <string name="anlive_voice_oncall">語音通話進行中...</string>
+    <string name="anlive_video_oncall">視訊通話進行中...</string>
     <string name="anlive_waiting_reply">正在等候對方接受邀請...</string>
-    <string name="anlive_oncall">視訊通話進行中...</string>
     <string name="anlive_mute">靜音</string>
     <string name="anlive_unmute">取消靜音</string>
     <string name="anlive_hangup">掛斷</string>
@@ -91,5 +93,10 @@
     
     <!-- Wall -->
     <string name="wall_circle">朋友圈</string>
+    <string name="wall_like">讚</string>
+    <string name="wall_comment">留言</string>
+    <string name="wall_create_post">撰寫貼文…</string>
+    <string name="wall_create_post_title">新增貼文</string>
+    <string name="wall_comment_reply">回覆</string>
 
 </resources>

@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import co.herxun.impp.activity.ChatActivity;
 import co.herxun.impp.activity.CreateTopicActivity;
 import co.herxun.impp.activity.FriendRequestActivity;
 import co.herxun.impp.activity.SearchUserActivity;
+import co.herxun.impp.activity.UserDetailActivity;
 import co.herxun.impp.adapter.FriendListAdapter;
 import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.im.controller.IMManager;
@@ -138,13 +140,10 @@ public class FriendListFragment extends BaseFragment implements Observer{
 					ct.startActivity(i);
 				}else if(mFriendListAdapter.getItem(position) instanceof User){
 					User user = (User) mFriendListAdapter.getItem(position);
-					Chat chat = IMManager.getInstance(ct).addChat(user.clientId);
-					IMManager.getInstance(ct).notifyChatUpdated();
-					Intent i = new Intent(ct,ChatActivity.class);
-					Bundle b = new Bundle();
-					b.putSerializable(Constant.INTENT_EXTRA_KEY_CHAT, chat);
-					i.putExtras(b);
-					ct.startActivity(i);
+					Intent i = new Intent(view.getContext(),UserDetailActivity.class);
+					i.putExtra(Constant.INTENT_EXTRA_KEY_CLIENT,user.clientId);
+					view.getContext().startActivity(i);
+					((Activity) view.getContext()).overridePendingTransition(R.anim.push_up_in,android.R.anim.fade_out);
 				}
 			}
         });

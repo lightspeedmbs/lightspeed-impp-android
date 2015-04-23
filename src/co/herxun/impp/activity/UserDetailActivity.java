@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-public class UserDetailActivity extends Activity implements Observer{
+public class UserDetailActivity extends BaseActivity implements Observer{
 	private UserDetailView mUserDetailView;
 	private AppBar mAppBar;
 	private User user;

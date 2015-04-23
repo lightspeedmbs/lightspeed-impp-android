@@ -55,7 +55,7 @@
     <string name="chat_record_press">按住即可录音</string>
     <string name="chat_record_release">放开即可传送</string>
     <string name="chat_recording">录音中</string>
-    <string name="chat_record_tooshort">声音讯息过短</string>
+    <string name="chat_record_tooshort">声音信息过短</string>
     <string name="chat_record_release_to_cancel">放开以取消传送</string>
     <string name="chat_send">送出</string>
     <string name="chat_record_cancel">取消</string>
@@ -66,9 +66,11 @@
     <string name="chat_delete_chat_confirm">确定要删除此聊天吗？</string>
     
     <!-- Live -->
-    <string name="anlive_received_invitation">语音通话来电中...</string>
+    <string name="anlive_received_voice_invitation">语音通话来电中…</string>
+    <string name="anlive_received_video_invitation">视频通话来电中…</string>
+    <string name="anlive_voice_oncall">语音通话进行中…</string>
+    <string name="anlive_video_oncall">视频通话进行中…</string>
     <string name="anlive_waiting_reply">正在等候对方接受邀请...</string>
-    <string name="anlive_oncall">视频通话进行中...</string>
     <string name="anlive_mute">静音</string>
     <string name="anlive_unmute">取消静音</string>
     <string name="anlive_hangup">挂断</string>
@@ -81,14 +83,19 @@
 
     <!-- Settings -->
     <string name="else_sign_out">登出</string>
-    <string name="setting_send_msg">传送讯息</string>
+    <string name="setting_send_msg">发送信息</string>
     
     <!-- Notification -->
     <string name="noti_image">向您传送了图片</string>
-    <string name="noti_record">您收到来自 # 的声音讯息</string>
+    <string name="noti_record">您收到来自 # 的声音信息</string>
     <string name="noti_voice_call">语音通话来电中</string>
     <string name="noti_video_call">视讯通话来电中</string>
 
     <!-- Wall -->
     <string name="wall_circle">朋友圈</string>
+    <string name="wall_like">赞</string>
+    <string name="wall_comment">留言</string>
+    <string name="wall_create_post">今天的心情…</string>
+    <string name="wall_create_post_title">创建贴文</string>
+    <string name="wall_comment_reply">回应</string>
 </resources>

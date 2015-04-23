@@ -42,7 +42,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.OnEditorActionListener;
 
-public class CreateTopicActivity extends Activity  implements Observer{
+public class CreateTopicActivity extends BaseActivity  implements Observer{
 	private AppBar mAppbar;
 	private ListView mListView;
 	private UserChooseListAdapter mUserChooseListAdapter;

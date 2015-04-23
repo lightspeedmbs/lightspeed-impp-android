@@ -17,6 +17,7 @@ public class Message extends Model {
 	public static final String TYPE_IMAGE = "image";
 	public static final String TYPE_RECORD = "record";
 	public static final String TYPE_NOTICE = "notice";
+	public static final String TYPE_LIKE = "like";
 
 	public static final String STATUS_SENDING = "sending";
 	public static final String STATUS_SENT = "sent";

@@ -39,7 +39,7 @@ import co.herxun.impp.im.view.ChatView;
 import co.herxun.impp.model.User;
 import co.herxun.impp.utils.Constant;
 
-public class ChatListFragment extends BaseFragment implements Observer{
+public class ChatListFragment extends BaseFragment{
 	private ListView mListView;
 	private ChatListAdapter mChatListAdapter;
 	private Dialog mActionDialog;
@@ -51,7 +51,6 @@ public class ChatListFragment extends BaseFragment implements Observer{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		IMManager.getInstance(getActivity()).addObserver(this);
 	}
 	
 	@Override
@@ -59,7 +58,7 @@ public class ChatListFragment extends BaseFragment implements Observer{
 		if(mChatListAdapter!=null){
 			mChatListAdapter.fillLocalData();
 		}
-		checkBadge();
+		//checkBadge();
 	}
 	
 	@Override
@@ -134,7 +133,7 @@ public class ChatListFragment extends BaseFragment implements Observer{
 	}
 	
 	private void checkBadge(){
-		IMManager.getInstance(getActivity()).getTotalUnReadMessageCount(new GetUnReadedMessageCountCallback(){
+		IMManager.getInstance(getActivity()).getUnReadMessageCount(new GetUnReadedMessageCountCallback(){
 			@Override
 			public void onFinish(int count) {
 				setBadgeCount(count);
@@ -142,21 +141,12 @@ public class ChatListFragment extends BaseFragment implements Observer{
 		});
 	}
 	
-	@Override
 	public void update(Observable observable, Object data) {
 		if(data instanceof Message){
-			mChatListAdapter.fillLocalData();
-			final Message msg = (Message)data;
-			if(getActivity()!=null){
-				getActivity().runOnUiThread(new Runnable(){
-					@Override
-					public void run() {
-						int badgeCount = getBadgeCount();
-						setBadgeCount(++badgeCount);
-					}
-				});
-			}
 		}else if(data instanceof IMManager.UpdateType && ((IMManager.UpdateType)data).equals(IMManager.UpdateType.Topic)){
+			
+		}
+		if(mChatListAdapter!=null){
 			mChatListAdapter.fillLocalData();
 		}
 		

@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-public class PictureActivity extends Activity {
+public class PictureActivity extends BaseActivity {
 	private AppBar mAppbar;
 	private TouchImageView mTouchImageView;
 	

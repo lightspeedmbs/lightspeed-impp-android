@@ -34,8 +34,8 @@ public class BaseFragment extends Fragment {
 		return badgeCount;
 	}
 	public void setBadgeCount(int count){
+		badgeCount = count;
 		if(getView()!=null){
-			badgeCount = count;
 			SlidingTabLayout mSlidingTabLayout = (SlidingTabLayout)getActivity().findViewById(R.id.sliding_tabs);
 			if(mSlidingTabLayout!=null){
 				mSlidingTabLayout.refreshAllTab();

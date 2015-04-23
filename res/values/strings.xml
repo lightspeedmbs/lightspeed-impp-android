@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_key"></string>
+    <string name="wall_id"></string>
+    
     <string name="app_name">IM++</string>
     <string name="tab_title_chat">Chat</string>
     <string name="tab_title_friend">Friends</string>
@@ -12,7 +14,7 @@
     <string name="general_ok">OK</string>
     <string name="general_cancel">Cancel</string>
     <string name="general_press_again_to_exit">Click again to exit application</string>
-    
+
     <!-- Login -->
     <string name="login_sign_up">Sign Up</string>
     <string name="login_sign_in">Login</string>
@@ -65,11 +67,13 @@
     <string name="chat_topic_leave">Leave Group</string>
     <string name="chat_topic_leave_owner">Delete Group</string>
     <string name="chat_delete_chat_confirm">Delete this chat?</string>
-    
+
     <!-- Live -->
-    <string name="anlive_received_invitation">Incoming Video Call…</string>
+    <string name="anlive_received_voice_invitation">Incoming Call…</string>
+    <string name="anlive_received_video_invitation">Incoming Video Call…</string>
+    <string name="anlive_voice_oncall">Call in progress…</string>
+    <string name="anlive_video_oncall">Video Call …</string>
     <string name="anlive_waiting_reply">Waiting…</string>
-    <string name="anlive_oncall">Call in progress…</string>
     <string name="anlive_mute">Mute</string>
     <string name="anlive_unmute">Unmute</string>
     <string name="anlive_hangup">End Call</string>
@@ -82,8 +86,8 @@
 
     <!-- Settings -->
     <string name="else_sign_out">Logout</string>
-    <string name="setting_send_msg">傳送訊息</string>
-    
+    <string name="setting_send_msg">Chat</string>
+
     <!-- Notification -->
     <string name="noti_image">sent you an image</string>
     <string name="noti_record"># sent you a voice message</string>
@@ -91,6 +95,16 @@
     <string name="noti_video_call">Incoming Video Call…</string>
 
     <!-- Wall -->
-    <string name="wall_circle">朋友圈</string>
+    <string name="wall_circle">Timeline</string>
+    <string name="wall_like">Like</string>
+    <string name="wall_comment">Comment</string>
+    <string name="wall_create_post">Say something…</string>
+    <string name="wall_create_post_title">New Post</string>
+    <string name="wall_comment_reply">Replied</string>
     
+ 	<!-- IM -->
+    <string name="im_disconnect">IM Disconnect</string>
+    <string name="im_connect">IM Connect</string>
+ 	
+
 </resources>

@@ -54,8 +54,9 @@ public class Topic extends Model implements Serializable{
 			topicName = json.getString("name");
 			ownerClientId = json.getString("owner");
 			JSONArray parties = json.getJSONArray("parties");
-			TopicMember topicMember = new TopicMember();
+			removeAllMember();
 			for(int i =0;i<parties.length();i++){
+				TopicMember topicMember = new TopicMember();
 				String clientId = parties.getString(i);
 				topicMember.topicId = topicId;
 				topicMember.clientId = clientId;
@@ -78,16 +79,16 @@ public class Topic extends Model implements Serializable{
 		new Delete().from(TopicMember.class).where("topicId = \""+topicId+"\" and clientId = \""+clientId+"\"").executeSingle();
 	}
 	
+	private void removeAllMember(){
+		new Delete().from(TopicMember.class).where("topicId = ?" , topicId).execute();
+	}
+	
 	public Topic getFromTable(){
 		return new Select().from(Topic.class).where("topicId = ? ",topicId).executeSingle();
     }
 	    
 	public List<TopicMember> members(){
 		List<TopicMember> topicMembers = new Select().from(TopicMember.class).where("topicId = ?" , topicId).execute();
-//		List<String> members = new ArrayList<String>();
-//		for(TopicMember t :topicMembers){
-//			members.add(t.clientId);
-//		}
 		return  topicMembers;
 		
 	}

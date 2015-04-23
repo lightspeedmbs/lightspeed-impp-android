@@ -63,7 +63,7 @@ public class ImageLoader {
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null){
         	if(roundCorner){
-        		bitmap = ImageUtility.getRoundedCornerBitmap(bitmap, bitmap.getWidth());
+        		bitmap = ImageUtility.getRoundedShape(bitmap);
         	}
             imageView.setImageBitmap(bitmap);
         }else{
@@ -207,7 +207,7 @@ public class ImageLoader {
                 return;
             if(bitmap!=null){
             	if(photoToLoad.roundCorner){
-            		bitmap = ImageUtility.getRoundedCornerBitmap(bitmap, bitmap.getWidth());
+            		bitmap = ImageUtility.getRoundedShape(bitmap);
             	}
                 photoToLoad.imageView.setImageBitmap(bitmap);
             }else if(photoToLoad.defaultDrawable!=null){

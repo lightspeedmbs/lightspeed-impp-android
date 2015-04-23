@@ -32,6 +32,7 @@ import co.herxun.impp.view.UserListItem;
 import android.content.Context;
 import android.os.Handler;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -117,7 +118,7 @@ public class FriendRequestListAdapter extends BaseAdapter {
 	
 	public class FriendRequestListItem extends UserListItem{
 		private TextView textFriendStatus;
-		private ImageView imgApprove,imgReject;
+		private FrameLayout btnApprove,btnReject;
 		private LinearLayout viewBtn;
 		public FriendRequestListItem(Context ct) {
 			super(ct);
@@ -138,16 +139,21 @@ public class FriendRequestListAdapter extends BaseAdapter {
 			
 			viewBtn = new LinearLayout(ct);
 			viewBtn.setOrientation(LinearLayout.HORIZONTAL);
-			imgApprove = new ImageView(ct);
-			imgApprove.setImageResource(R.drawable.friend_accept);
-			viewBtn.addView(imgApprove,new LinearLayout.LayoutParams(Utils.px2Dp(ct, 24),Utils.px2Dp(ct, 24)));
-			imgReject = new ImageView(ct);
-			imgReject.setImageResource(R.drawable.friend_decline);
-			LinearLayout.LayoutParams llpReject = new LinearLayout.LayoutParams(Utils.px2Dp(ct, 24),Utils.px2Dp(ct, 24));
-			llpReject.leftMargin = Utils.px2Dp(ct, 16);
-			viewBtn.addView(imgReject,llpReject);
-			addView(viewBtn,rlpTextFS);
 			viewBtn.setVisibility(View.GONE);
+			
+			btnApprove = new FrameLayout(ct);
+			ImageView imgApprove = new ImageView(ct);
+			imgApprove.setImageResource(R.drawable.friend_accept);
+			btnApprove.addView(imgApprove,new FrameLayout.LayoutParams(Utils.px2Dp(ct, 24),Utils.px2Dp(ct, 24),Gravity.CENTER));
+			viewBtn.addView(btnApprove,new LinearLayout.LayoutParams(Utils.px2Dp(ct, 40),-1));
+
+			btnReject = new FrameLayout(ct);
+			ImageView imgReject = new ImageView(ct);
+			imgReject.setImageResource(R.drawable.friend_decline);
+			btnReject.addView(imgReject,new FrameLayout.LayoutParams(Utils.px2Dp(ct, 24),Utils.px2Dp(ct, 24),Gravity.CENTER));
+			viewBtn.addView(btnReject,new LinearLayout.LayoutParams(Utils.px2Dp(ct, 40),-1));
+			
+			addView(viewBtn,rlpTextFS);
 		}
 		
 		public void setData(final FriendRequest request){
@@ -164,7 +170,7 @@ public class FriendRequestListAdapter extends BaseAdapter {
 				textFriendStatus.setText(R.string.friend_request_status_rejected);
 			}else if(request.status.equals(FriendRequest.STATUS_PENDING)){
 				viewBtn.setVisibility(View.VISIBLE);
-				imgApprove.setOnClickListener(new OnClickListener(){
+				btnApprove.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
 						UserManager.getInstance(ct).approveFriendRequest(request, new IAnSocialCallback(){
@@ -178,7 +184,7 @@ public class FriendRequestListAdapter extends BaseAdapter {
 						});
 					}
 				});
-				imgReject.setOnClickListener(new OnClickListener(){
+				btnReject.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
 						UserManager.getInstance(ct).rejectFriendRequest(request, new IAnSocialCallback(){

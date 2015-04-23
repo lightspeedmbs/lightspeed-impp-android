@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import com.arrownock.exception.ArrownockException;
 import com.arrownock.live.IStartCallCallback;
+import com.arrownock.social.AnSocial;
 import com.arrownock.social.IAnSocialCallback;
 
 import android.app.Activity;
@@ -35,6 +36,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import co.herxun.impp.IMppApp;
 import co.herxun.impp.R;
+import co.herxun.impp.activity.CreatePostActivity.PhotoGridAdapter;
 import co.herxun.impp.controller.SocialManager;
 import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.im.controller.IMManager;
@@ -56,9 +59,8 @@ import co.herxun.impp.utils.DBug;
 import co.herxun.impp.utils.ImageUtility;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
-import eu.janmuller.android.simplecropimage.CropImage;
 
-public class ChatActivity extends Activity implements Observer{
+public class ChatActivity extends BaseActivity implements Observer{
 	private ChatView mChatView;
 	private AlertDialog mActionDialog,mTopicActionDialog;
 	private AppBar mAppBar;
@@ -71,6 +73,7 @@ public class ChatActivity extends Activity implements Observer{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		IMManager.getInstance(this).addObserver(this);
 		mApp = (IMppApp) getApplicationContext();
@@ -332,87 +335,80 @@ public class ChatActivity extends Activity implements Observer{
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
-
+	    IMManager.getInstance(this).connect(IMManager.getInstance(this).getCurrentClientId());
 		if (requestCode == Constant.REQUESTCODE_PHOTO_PICK) {
 			String imageFilePath = ImageUtility.getFilePathFromGallery(this,data);
-			startCropImage(imageFilePath);
-			
+			if(imageFilePath!=null){
+				uploadPhoto(imageFilePath);
+			}
 
 		}else if(requestCode == Constant.REQUESTCODE_PHOTO_TAKE){
-			String imageFilePath = ImageUtility.getFileTemp(ChatActivity.this).getPath();
-			startCropImage(imageFilePath);
-			
-		}else if (requestCode == Constant.REQUESTCODE_PHOTO_CROP) {
-		    if(data==null || data.getStringExtra(CropImage.IMAGE_PATH) == null){
-		    	return;
-		    }
-		    byte[] fileToUpload,fileToSend;
-		    
-			String photoFilePath = data.getStringExtra(CropImage.IMAGE_PATH);
-			File file = new File(photoFilePath);
-		    int size = (int) file.length();
-		    fileToUpload = new byte[size];
-		    try {
-		        BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-		        buf.read(fileToUpload, 0, fileToUpload.length);
-		        buf.close();
-		    } catch (FileNotFoundException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		    } catch (IOException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		    }
+			String imageFilePath = ImageUtility.getFileTemp(this).getPath();
+			if(imageFilePath!=null){
+				uploadPhoto(imageFilePath);
+			}
+		}
+	}	
 
-			Bitmap original = BitmapFactory.decodeByteArray(fileToUpload, 0, fileToUpload.length);
-		    Bitmap resized = Bitmap.createScaledBitmap(original, 100, 100, true);
-		    ByteArrayOutputStream blob = new ByteArrayOutputStream();
-		    resized.compress(Bitmap.CompressFormat.PNG, 100, blob);
-		    fileToSend = blob.toByteArray();
-		    
-		    
-		    final byte[] fileData = fileToSend;
-		    SocialManager.getInstance(this).createPhoto(UserManager.getInstance(this).getCurrentUser().userId, fileToUpload, new IAnSocialCallback(){
-				@Override
-				public void onFailure(JSONObject json) {
-					//DBug.e("createPhoto.onFailure",json.toString());
-				}
-				@Override
-				public void onSuccess(JSONObject json) {
-					try {
-						String url = json.getJSONObject("response").getJSONObject("photo").getString("url");
-						Message msg = new Message();
-					    msg.type = Message.TYPE_IMAGE;
-					    msg.content = fileData;
-					    msg.fileURL = url;
-						mChatView.sendMessage(msg);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-		    });
-			
-			ImageUtility.deleteTempFile(this);
-			
+	private void uploadPhoto(String filePath){
+		byte[] fileToUpload,fileToSend;
+	    
+		File file = new File(filePath);
+	    int size = (int) file.length();
+	    fileToUpload = new byte[size];
+	    try {
+	        BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+	        buf.read(fileToUpload, 0, fileToUpload.length);
+	        buf.close();
+	    } catch (FileNotFoundException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+
+		Bitmap original = BitmapFactory.decodeByteArray(fileToUpload, 0, fileToUpload.length);
+		final double MAX_SIZE = 100;
+		double imgViewW = 0;
+		double imgViewH;
+		if(original.getWidth()>original.getHeight()){
+			imgViewW = MAX_SIZE;
+			imgViewH = original.getHeight() * (MAX_SIZE / original.getWidth());
+		}else{
+			imgViewH = MAX_SIZE;
+			imgViewW = original.getWidth() * (MAX_SIZE / original.getHeight());
 		}
-	}
-	private void startCropImage(String imageFilePath){
-		if (imageFilePath == null || imageFilePath.trim().length() == 0) {
-			return;
-		}
-		Intent intent = new Intent(this, CropImage.class);
-		intent.putExtra(CropImage.IMAGE_PATH, imageFilePath);
-		intent.putExtra(CropImage.SCALE, true);
-		intent.putExtra(CropImage.ASPECT_X, 1);
-		intent.putExtra(CropImage.ASPECT_Y, 1);
-		//intent.putExtra(CropImage.OUTPUT_X, 720);
-		//intent.putExtra(CropImage.OUTPUT_Y, 720);
-		// intent.putExtra(CropImage.CIRCLE_CROP, true);
-		intent.putExtra("border-color", 0xFFffffff);
-		startActivityForResult(intent, Constant.REQUESTCODE_PHOTO_CROP);
+		
+	    Bitmap resized = Bitmap.createScaledBitmap(original, (int)imgViewW, (int)imgViewH, true);
+	    ByteArrayOutputStream blob = new ByteArrayOutputStream();
+	    resized.compress(Bitmap.CompressFormat.JPEG, 80, blob);
+	    fileToSend = blob.toByteArray();
+	    
+	    final byte[] fileData = fileToSend;
+	    SocialManager.createPhoto(this,UserManager.getInstance(this).getCurrentUser().userId, fileToUpload, new IAnSocialCallback(){
+			@Override
+			public void onFailure(JSONObject json) {
+				DBug.e("createPhoto.onFailure",json.toString());
+			}
+			@Override
+			public void onSuccess(JSONObject json) {
+				DBug.e("createPhoto.onSuccess",json.toString());
+				try {
+					String url = json.getJSONObject("response").getJSONObject("photo").getString("url");
+					Message msg = new Message();
+				    msg.type = Message.TYPE_IMAGE;
+				    msg.content = fileData;
+				    msg.fileURL = url;
+					mChatView.sendMessage(msg);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	    });
 	}
 	
 	@Override
@@ -420,7 +416,7 @@ public class ChatActivity extends Activity implements Observer{
 		if(data instanceof IMManager.UpdateType && ((IMManager.UpdateType)data).equals(IMManager.UpdateType.Topic)){
 			runOnUiThread(new Runnable(){
 				public void run() {
-					if(mChat.topic!=null){
+					if(mChat.topic!=null && mAppBar.getTextView()!=null){
 						mAppBar.getTextView().setText(mChat.topic.getFromTable().topicName);
 					}
 				}

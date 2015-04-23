@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -67,10 +68,12 @@ import com.arrownock.social.AnSocial;
 import com.arrownock.social.AnSocialMethod;
 import com.arrownock.social.IAnSocialCallback;
 
-public class LoginActivity extends ActionBarActivity{
+public class LoginActivity extends BaseActivity{
 	private MaterialEditText etUsername,etPwd;
 	private Button btnSignUp,btnSignIn;
 	private String payload;
+	private boolean doubleBackToExistPressedOnce = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -144,25 +147,15 @@ public class LoginActivity extends ActionBarActivity{
 		etPwd.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
 
 		float corner = Utils.px2Dp(this, 2);
-		GradientDrawable bgBtn = new GradientDrawable();
-		bgBtn.setColor(getResources().getColor(R.color.no3));
-		bgBtn.setCornerRadii(new float[]{corner,corner,corner,corner,corner,corner,corner,corner});
-		GradientDrawable bgBtnSelected = new GradientDrawable();
-		bgBtnSelected.setColor(getResources().getColor(R.color.no2));
-		bgBtnSelected.setCornerRadii(new float[]{corner,corner,corner,corner,corner,corner,corner,corner});
-		
-		StateListDrawable statesBtnSignUp = new StateListDrawable();
-		statesBtnSignUp.addState(new int[] {android.R.attr.state_pressed},bgBtnSelected);
-		statesBtnSignUp.addState(new int[] {android.R.attr.state_focused},bgBtnSelected);
-		statesBtnSignUp.addState(new int[] { },bgBtn);
-		
-		StateListDrawable statesBtnSignIn = new StateListDrawable();
-		statesBtnSignIn.addState(new int[] {android.R.attr.state_pressed},bgBtnSelected);
-		statesBtnSignIn.addState(new int[] {android.R.attr.state_focused},bgBtnSelected);
-		statesBtnSignIn.addState(new int[] { },bgBtn);
+		GradientDrawable bgBtnSignUp = new GradientDrawable();
+		bgBtnSignUp.setColor(getResources().getColor(R.color.no3));
+		bgBtnSignUp.setCornerRadii(new float[]{corner,corner,corner,corner,corner,corner,corner,corner});
+		GradientDrawable bgBtnSignIn = new GradientDrawable();
+		bgBtnSignIn.setColor(getResources().getColor(R.color.no2));
+		bgBtnSignIn.setCornerRadii(new float[]{corner,corner,corner,corner,corner,corner,corner,corner});
 		
 		btnSignUp = (Button)findViewById(R.id.btn_sign_up);
-		btnSignUp.setBackgroundDrawable(statesBtnSignUp);
+		btnSignUp.setBackgroundDrawable(bgBtnSignUp);
 		btnSignUp.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -192,7 +185,7 @@ public class LoginActivity extends ActionBarActivity{
 		});
 		
 		btnSignIn = (Button)findViewById(R.id.btn_sign_in);
-		btnSignIn.setBackgroundDrawable(statesBtnSignIn);
+		btnSignIn.setBackgroundDrawable(bgBtnSignIn);
 		btnSignIn.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -233,7 +226,6 @@ public class LoginActivity extends ActionBarActivity{
     	
 		IMManager.getInstance(this).fetchAllRemoteTopic();
     	UserManager.getInstance(this).fetchMyRemoteFriend(null);
-    	UserManager.getInstance(this).fetchFriendRequest(null);
 
     	Intent i = new Intent(this,MainActivity.class);
     	if(payload!=null){
@@ -241,5 +233,25 @@ public class LoginActivity extends ActionBarActivity{
     	}
     	startActivity(i);
     	finish();
+	}
+	
+	
+	@Override
+	public void onBackPressed() {
+		Handler h = new Handler();
+		Runnable r =new Runnable(){
+			@Override
+			public void run() {
+				doubleBackToExistPressedOnce = false;
+			}
+		};
+		if(!doubleBackToExistPressedOnce){
+			doubleBackToExistPressedOnce = true;
+			Toast.makeText(this,getString(R.string.general_press_again_to_exit),Toast.LENGTH_SHORT).show();
+			h.postDelayed(r, 2000);
+		}else{
+			h.removeCallbacks(r);
+			super.onBackPressed();
+		}
 	}
 }

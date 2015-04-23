@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <co.herxun.impp.view.AppBar
+        android:id="@+id/comment_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/no1" >
+    </co.herxun.impp.view.AppBar>
+
+    <ListView
+        android:id="@+id/comment_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/comment_input_box"
+        android:layout_below="@+id/comment_app_bar"
+        android:background="@color/no5" >
+
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/comment_input_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/no6" >
+
+        <TextView
+            android:id="@+id/comment_btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/chat_send"
+            android:textColor="@color/no1"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/comment_btn_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/comment_btn_send"
+            android:background="@android:color/transparent"
+            android:hint="@string/wall_comment"
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:textColor="@color/no11"
+            android:textColorHint="@color/no8" >
+
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
+
+</RelativeLayout>

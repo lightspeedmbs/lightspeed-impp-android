@@ -71,8 +71,10 @@ public class IMManager extends Observable{
 	private final static int RECONNECT_RATE = 1000;
 	private String currentClientId ;
 	
+	private boolean retryConnect = false;
+	
 	public enum UpdateType{
-		Topic,Chat,FriendRequest
+		Topic,Chat,FriendRequest,Like
 	}
 	
 	private IMManager(Context ct){
@@ -98,10 +100,28 @@ public class IMManager extends Observable{
 		return anIM;
 	}
 	
+	public void enableRetryConnect(boolean bool){
+		retryConnect = bool;
+	}
+	
 	public void connect(String clientId){
 		this.currentClientId = clientId;
+		retryConnect = true;
 		try {
 			anIM.connect(clientId);
+		} catch (ArrownockException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public void disconnect(boolean logout){
+		retryConnect = false;
+		if(logout){
+			currentClientId = null;
+		}
+		try {
+			anIM.disconnect();
 		} catch (ArrownockException e) {
 			
 			e.printStackTrace();
@@ -132,17 +152,17 @@ public class IMManager extends Observable{
 			if(chat.topic!=null){
 				if(message.type.equals(Message.TYPE_TEXT)){
 					customData.put("notification_alert", user.getUsername()+"："+message.message);
-					msgId = anIM.sendMessageToTopic(chat.topic.topicId, message.message,customData,true);
+					msgId = anIM.sendMessageToTopic(chat.topic.topicId, message.message,customData);
 					
 				}else if(message.type.equals(Message.TYPE_IMAGE)){
 					customData.put("notification_alert", user.getUsername()+" "+ct.getString(R.string.noti_image));
 					customData.put("type", Message.TYPE_IMAGE);
 					customData.put("url", message.fileURL);
-					msgId = anIM.sendBinaryToTopic(chat.topic.topicId, message.content, message.type, customData,true);
+					msgId = anIM.sendBinaryToTopic(chat.topic.topicId, message.content, message.type, customData);
 					
 				}else if(message.type.equals(Message.TYPE_RECORD)){
 					customData.put("notification_alert", ct.getString(R.string.noti_record).replace("#", user.getUsername()));
-					msgId = anIM.sendBinaryToTopic(chat.topic.topicId, message.content, message.type, customData,true);
+					msgId = anIM.sendBinaryToTopic(chat.topic.topicId, message.content, message.type, customData);
 				}
 			}else{
 				if(message.type.equals(Message.TYPE_TEXT)){
@@ -216,26 +236,57 @@ public class IMManager extends Observable{
 		public void onFinish(List<Message> data);
 	}
 	
-	public void getTotalUnReadMessageCount(final GetUnReadedMessageCountCallback callback){
-		new Thread(new Runnable(){
+//	public void getTotalUnReadMessageCount(final GetUnReadedMessageCountCallback callback){
+//		new Thread(new Runnable(){
+//			@Override
+//			public void run() {
+//		    	final List<Message> messages = new Select().from(Message.class).where("readed = \""+0+"\" and currentClientId = \""+currentClientId+"\"").execute();   	
+//		    	DBug.e("getTotalUnReadMessageCount",messages.size()+"?");
+//		    	
+//				handler.post(new Runnable(){
+//					@Override
+//					public void run() {
+//						if(callback!=null){
+//							if(messages==null){
+//								callback.onFinish(0);
+//							}else{
+//								callback.onFinish(messages.size());
+//							}
+//						}
+//					}
+//				});
+//			}
+//		}).start();
+//	}
+	
+	public void getUnReadMessageCount(final GetUnReadedMessageCountCallback callback){
+		IMManager.getInstance(ct).getAllMyChat(new GetChatCallback(){
 			@Override
-			public void run() {
-		    	final List<Message> messages = new Select().from(Message.class).where("readed = \""+0+"\" and currentClientId = \""+currentClientId+"\"").execute();   	
-		    	
-				handler.post(new Runnable(){
+			public void onFinish(final List<Chat> chats) {
+				new Thread(new Runnable(){
 					@Override
 					public void run() {
-						if(callback!=null){
-							if(messages==null){
-								callback.onFinish(0);
-							}else{
-								callback.onFinish(messages.size());
+				    	final List<Message> unReadMsgs = new ArrayList<Message>();
+				    	for(Chat chat :chats){
+				    		List<Message> msg = new Select().from(Message.class).where("readed = \""+0+"\" and currentClientId = \""+currentClientId+"\" and Chat = \""+chat.getId()+"\"").execute();  
+				    		unReadMsgs.addAll(msg);
+				    	}	
+						handler.post(new Runnable(){
+							@Override
+							public void run() {
+								if(callback!=null){
+									if(unReadMsgs==null){
+										callback.onFinish(0);
+									}else{
+										callback.onFinish(unReadMsgs.size());
+									}
+								}
 							}
-						}
+						});
 					}
-				});
+				}).start();
 			}
-		}).start();
+		});
 	}
 	
 	public interface GetUnReadedMessageCountCallback{
@@ -475,8 +526,21 @@ public class IMManager extends Observable{
 		notifyObservers(UpdateType.FriendRequest);
 	}
 	
+	
+	private void handleLikeNotice(Object data){
+		if(data instanceof AnIMBinaryCallbackData){
+			
+		}else if(data instanceof AnIMMessage){
+			
+		}
+		notifyLike();
+	}
+	public void notifyLike(){
+		setChanged();
+		notifyObservers(UpdateType.Like);
+	}
+	
 	private void handleChatMessage(Object data){
-		
 		Message msg = new Message();
 		if(data instanceof AnIMMessageCallbackData){
 			AnIMMessageCallbackData msgData = (AnIMMessageCallbackData)data;
@@ -630,7 +694,12 @@ public class IMManager extends Observable{
 				handleChatMessage(msg);
 			}else{
 				if(msg.getFileType().equals(Constant.FRIEND_REQUEST_TYPE_SEND)){
-					handleFriendRequest(msg.getFrom(),msg.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE));
+					String type = msg.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE);
+					if(type.equals(Constant.FRIEND_REQUEST_TYPE_SEND)||type.equals(Constant.FRIEND_REQUEST_TYPE_APPROVE)){
+						handleFriendRequest(msg.getFrom(),msg.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE));
+					}else if(type.equals(Message.TYPE_LIKE)){
+						handleLikeNotice(msg);
+					}
 				}else if(msg.getFileType().equals(Message.TYPE_IMAGE)||msg.getFileType().equals(Message.TYPE_RECORD)){
 					handleChatMessage(msg);
 				}
@@ -696,38 +765,51 @@ public class IMManager extends Observable{
 			//removeAllTopics();
 			getMyLocalTopic(new IMManager.FetchLocalTopicCallback(){
 				@Override
-				public void onFinish(List<Topic> localTopicList) {
-					Set<String> filterTopicSet = new HashSet<String>();
-					for(Topic topic : localTopicList){
-						filterTopicSet.add(topic.topicId);
-					} 
-					List<JSONObject> topicList = data.getTopicList();
-					if(topicList!=null &&topicList.size()>0){
-						for(JSONObject j:topicList){
-							Topic topic = new Topic();
-							topic.parseJSON(j);
-							topic = IMManager.getInstance(ct).updateTopic(topic);
-							filterTopicSet.remove(topic.topicId);
-							
-							try {
-								JSONArray parties = j.getJSONArray("parties");
-								for(int i =0;i<parties.length();i++){
-									String clientId = parties.getString(i);
-									if(UserManager.getInstance(ct).getUserByClientId(clientId)==null){
-										UserManager.getInstance(ct).fetchUserDataByClientId(clientId);
+				public void onFinish(final List<Topic> localTopicList) {
+					new Thread(new Runnable(){
+						@Override
+						public void run() {
+							Set<String> filterTopicSet = new HashSet<String>();
+							for(Topic topic : localTopicList){
+								filterTopicSet.add(topic.topicId);
+							} 
+							List<JSONObject> topicList = data.getTopicList();
+							if(topicList!=null &&topicList.size()>0){
+								for(JSONObject j:topicList){
+									Topic topic = new Topic();
+									topic.parseJSON(j);
+									DBug.e("getTopicList",topic.topicName);
+									topic = IMManager.getInstance(ct).updateTopic(topic);
+									filterTopicSet.remove(topic.topicId);
+									
+									try {
+										JSONArray parties = j.getJSONArray("parties");
+										for(int i =0;i<parties.length();i++){
+											String clientId = parties.getString(i);
+											if(UserManager.getInstance(ct).getUserByClientId(clientId)==null){
+												UserManager.getInstance(ct).fetchUserDataByClientId(clientId);
+											}
+										}
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-							} catch (JSONException e) {
-								e.printStackTrace();
+								handler.post(new Runnable(){
+									@Override
+									public void run() {
+										notifyTopicUpdated();
+									}
+								});
+							}else{
+								DBug.e("getTopicList", "null");
+							}
+
+							for(String topicId : filterTopicSet){
+								DBug.e("filterTopicSet", topicId);
+								new Delete().from(Topic.class).where("topicId = ?",topicId).executeSingle();
 							}
 						}
-						notifyTopicUpdated();
-					}else{
-					}
-
-					for(String topicId : filterTopicSet){
-						new Delete().from(Topic.class).where("topicId = ?",topicId).executeSingle();
-					}
+					}).start();
 				}
 			});
 		}
@@ -755,11 +837,19 @@ public class IMManager extends Observable{
 
 		@Override
 		public void receivedBinary(AnIMBinaryCallbackData data) {
-			if(data.getFileType()!=null && data.getFileType().equals(Constant.FRIEND_REQUEST_TYPE_SEND)){
-				handleFriendRequest(data.getFrom(),data.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE));
-			}else if(data.getFileType()!=null &&  (data.getFileType().equals(Message.TYPE_IMAGE) || data.getFileType().equals(Message.TYPE_RECORD))){
+			DBug.e("IMManergerManager", "receivedBinary");
+			if(data.getFileType().equals(Constant.FRIEND_REQUEST_TYPE_SEND)){
+				String type = data.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE);
+				DBug.e("receivedBinary",type);
+				if(type.equals(Constant.FRIEND_REQUEST_TYPE_SEND)||type.equals(Constant.FRIEND_REQUEST_TYPE_APPROVE)){
+					handleFriendRequest(data.getFrom(),data.getCustomData().get(Constant.FRIEND_REQUEST_KEY_TYPE));
+				}else if(type.equals(Message.TYPE_LIKE)){
+					handleLikeNotice(data);
+				}
+			}else if(data.getFileType().equals(Message.TYPE_IMAGE)||data.getFileType().equals(Message.TYPE_RECORD)){
 				handleChatMessage(data);
 			}
+			
 			
 			setChanged();
 			notifyObservers(data);
@@ -826,6 +916,13 @@ public class IMManager extends Observable{
 		@Override
 		public void statusUpdate(final AnIMStatusUpdateCallbackData data) {
 			if (data.getStatus() == AnIMStatus.ONLINE) {
+    			handler.post(new Runnable(){
+					@Override
+					public void run() {
+						Toast.makeText(ct, ct.getString(R.string.im_connect), Toast.LENGTH_LONG).show();
+					}
+    			});
+				
 				MyIAnLiveEventListener lsr = new MyIAnLiveEventListener(ct);
 				IMppApp app = (IMppApp) ct.getApplicationContext();
 				try {
@@ -868,6 +965,12 @@ public class IMManager extends Observable{
 					}
 				});
 	        }else if (data.getStatus() == AnIMStatus.OFFLINE) {
+    			handler.post(new Runnable(){
+					@Override
+					public void run() {
+						Toast.makeText(ct, ct.getString(R.string.im_disconnect), Toast.LENGTH_LONG).show();
+					}
+    			});
 	        	if(data.getException()!=null){
 					data.getException().printStackTrace();
 	        		if (data.getException().getErrorCode() == ArrownockException.IM_FORCE_CLOSED
@@ -879,12 +982,14 @@ public class IMManager extends Observable{
 							}
 	        			});
 					}else{
-						handler.postDelayed(new Runnable(){
-							@Override
-							public void run() {
-								connect(currentClientId);
-							}
-						}, RECONNECT_RATE);
+						if(currentClientId!=null && retryConnect){
+							handler.postDelayed(new Runnable(){
+								@Override
+								public void run() {
+									connect(currentClientId);
+								}
+							}, RECONNECT_RATE);
+						}
 					}
 				}else{
 					

@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/no5"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <co.herxun.impp.view.AppBar
+        android:id="@+id/create_post_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/no1" >
+    </co.herxun.impp.view.AppBar>
+
+    <EditText
+        android:id="@+id/wall_create_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_post_app_bar"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="@string/wall_create_post"
+        android:padding="16dp"
+        android:textColor="@color/no10"
+        android:textColorHint="@color/no8" >
+
+        <requestFocus />
+    </EditText>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/wall_create_et"
+        android:background="@color/no7" />
+
+    <GridView
+        android:id="@+id/wall_create_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/wall_create_et"
+        android:layout_margin="12dp"
+        android:horizontalSpacing="4dp"
+        android:numColumns="4"
+        android:verticalSpacing="4dp" >
+
+    </GridView>
+
+</RelativeLayout>

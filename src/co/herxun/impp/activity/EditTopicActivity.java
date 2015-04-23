@@ -26,7 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.RelativeLayout;
 
-public class EditTopicActivity extends Activity {
+public class EditTopicActivity extends BaseActivity {
 	private AppBar mAppBar;
 	private MaterialEditText etTopicName;
 	private Topic mTopic;

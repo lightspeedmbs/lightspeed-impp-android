@@ -3,7 +3,6 @@ package co.herxun.impp.utils;
 import java.io.File;
 
 import co.herxun.impp.R;
-import eu.janmuller.android.simplecropimage.CropImage;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -15,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -78,6 +78,62 @@ public class ImageUtility {
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 
 		return output;
+	}
+
+	public static Bitmap getRoundedBitmap(Bitmap bitmap) {
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Config.ARGB_8888);
+		
+		int size = Math.min(bitmap.getWidth(), bitmap.getHeight());
+		
+		Canvas canvas = new Canvas(output);
+
+		final int color = 0xff424242;
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, size, size);
+		final RectF rectF = new RectF(rect);
+		final float roundPx = size;
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+
+		return output;
+	}
+	
+	public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+		// TODO Auto-generated method stub
+		if (scaleBitmapImage.getWidth() >= scaleBitmapImage.getHeight()){
+			scaleBitmapImage = Bitmap.createBitmap(scaleBitmapImage, 
+				scaleBitmapImage.getWidth()/2 - scaleBitmapImage.getHeight()/2,0,
+				scaleBitmapImage.getHeight(),scaleBitmapImage.getHeight()
+		    );
+		}else{
+			scaleBitmapImage = Bitmap.createBitmap(scaleBitmapImage,
+				0,scaleBitmapImage.getHeight()/2 - scaleBitmapImage.getWidth()/2,
+				scaleBitmapImage.getWidth(),scaleBitmapImage.getWidth() 
+		    );
+		}
+		
+		int size = Math.min(scaleBitmapImage.getWidth(), scaleBitmapImage.getHeight());
+		Bitmap targetBitmap = Bitmap.createBitmap(size, size,
+				Bitmap.Config.ARGB_8888);
+
+		Canvas canvas = new Canvas(targetBitmap);
+		Path path = new Path();
+		path.addCircle(((float) size - 1) / 2,
+				((float) size - 1) / 2,
+				(Math.min(((float) size), ((float) size)) / 2),
+				Path.Direction.CCW);
+
+		canvas.clipPath(path);
+		Bitmap sourceBitmap = scaleBitmapImage;
+		canvas.drawBitmap(sourceBitmap, new Rect(0, 0, sourceBitmap.getWidth(),
+				sourceBitmap.getHeight()), new Rect(0, 0, size,size), null);
+		return targetBitmap;
 	}
 
 	public static int calculateInSampleSize(BitmapFactory.Options options,

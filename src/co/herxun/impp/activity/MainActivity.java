@@ -1,24 +1,14 @@
 package co.herxun.impp.activity;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.arrownock.social.IAnSocialCallback;
-
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -26,41 +16,30 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import co.herxun.impp.R;
 import co.herxun.impp.adapter.FragmentPagerAdapter;
-import co.herxun.impp.controller.SocialManager;
-import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.fragment.BaseFragment;
 import co.herxun.impp.fragment.ChatListFragment;
 import co.herxun.impp.fragment.ExploreFragment;
 import co.herxun.impp.fragment.FriendListFragment;
 import co.herxun.impp.fragment.SettingFragment;
 import co.herxun.impp.im.controller.IMManager;
+import co.herxun.impp.im.controller.IMManager.GetUnReadedMessageCountCallback;
 import co.herxun.impp.im.model.Chat;
 import co.herxun.impp.im.model.Message;
 import co.herxun.impp.im.model.Topic;
-import co.herxun.impp.model.User;
 import co.herxun.impp.utils.Constant;
 import co.herxun.impp.utils.DBug;
-import co.herxun.impp.utils.ImageUtility;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
 import co.herxun.impp.view.SlidingTabLayout;
-import eu.janmuller.android.simplecropimage.CropImage;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity implements Observer{
 	
 	
 	private SlidingTabLayout mSlidingTabLayout;
@@ -101,6 +80,8 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		IMManager.getInstance(this).addObserver(this);
 		setContentView(R.layout.activity_main);
 		checkBundle();
 		initView();
@@ -119,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
 		if(mOnPageChangeListener!=null){
 			mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem());
 		}
-		
+		updateTabBadge();
 	}
 	
 	private void checkBundle(){
@@ -301,5 +282,42 @@ public class MainActivity extends ActionBarActivity {
 			h.removeCallbacks(r);
 			super.onBackPressed();
 		}
+	}
+
+	public void updateTabBadge(){
+		mExploreFragment.setBadgeCount(mExploreFragment.getLikeCount());
+		IMManager.getInstance(this).getUnReadMessageCount(new GetUnReadedMessageCountCallback(){
+			@Override
+			public void onFinish(int count) {
+				mChatListFragment.setBadgeCount(count);
+			}
+		});
+	}
+	
+	@Override
+	public void update(final Observable observable, final Object data) {
+		runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				if(data instanceof Message){
+					Message msgData = (Message)data;
+					if(!msgData.readed){
+						int badgeCount = mChatListFragment.getBadgeCount();
+						mChatListFragment.setBadgeCount(++badgeCount);
+					}
+					mChatListFragment.update(observable, data);
+					
+				}else if(data instanceof IMManager.UpdateType && ((IMManager.UpdateType)data).equals(IMManager.UpdateType.Topic)){
+					mChatListFragment.update(observable, data);
+					
+				}else if(data instanceof IMManager.UpdateType && ((IMManager.UpdateType)data).equals(IMManager.UpdateType.Like)){
+					mExploreFragment.notifyLike();
+					mExploreFragment.setBadgeCount(mExploreFragment.getLikeCount());
+					DBug.e("mExploreFragment.getLikeCount()",mExploreFragment.getLikeCount()+"?");
+					DBug.e("mExploreFragment.badgeCount",mExploreFragment.getBadgeCount()+"?");
+				}
+				mSlidingTabLayout.refreshAllTab();
+			}
+		});
 	}
 }

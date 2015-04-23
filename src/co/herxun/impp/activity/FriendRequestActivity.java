@@ -41,7 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView.OnEditorActionListener;
 
-public class FriendRequestActivity extends Activity implements Observer{
+public class FriendRequestActivity extends BaseActivity implements Observer{
 	private AppBar mAppbar;
 	private ListView mListView;
 	private FriendRequestListAdapter mFriendRequestListAdapter;
