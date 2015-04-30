@@ -356,7 +356,9 @@ public class ChatView extends RelativeLayout implements Observer{
 						new Thread(new Runnable(){
 							@Override
 							public void run() {
-								IMManager.getInstance(ct).setMessageReaded(msg,mChat.topic==null);
+								DBug.e("****newMessage",msg.readed+"?");
+								boolean sendReadAck = mChat.topic==null && !msg.readed;
+								IMManager.getInstance(ct).setMessageReaded(msg,sendReadAck);
 							}
 						}).start();
 					}
