@@ -142,9 +142,9 @@ public class NotificationReceiver extends PushBroadcastReceiver {
             n = builder.getNotification();
         }
         int notifyId = 1;
-        if (!collapse) {
-            notifyId = (notificationId == -1 ? (int) System.currentTimeMillis() : notificationId);
-        }
+//        if (!collapse) {
+//            notifyId = (notificationId == -1 ? (int) System.currentTimeMillis() : notificationId);
+//        }
         notifManager.notify(notifyId, n);
     }
 

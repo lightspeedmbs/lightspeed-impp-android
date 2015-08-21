@@ -6,14 +6,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.arrownock.exception.ArrownockException;
-
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import co.herxun.impp.R;
-import co.herxun.impp.R.layout;
-import co.herxun.impp.adapter.PostListAdapter;
 import co.herxun.impp.controller.UserManager;
-import co.herxun.impp.controller.WallManager;
 import co.herxun.impp.controller.UserManager.FetchUserCallback;
+import co.herxun.impp.controller.WallManager;
 import co.herxun.impp.controller.WallManager.LikeCallback;
 import co.herxun.impp.im.controller.IMManager;
 import co.herxun.impp.im.model.Message;
@@ -21,27 +28,11 @@ import co.herxun.impp.imageloader.ImageLoader;
 import co.herxun.impp.model.Post;
 import co.herxun.impp.model.User;
 import co.herxun.impp.utils.Constant;
-import co.herxun.impp.utils.DBug;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
 import co.herxun.impp.view.WallView;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
+
+import com.arrownock.exception.ArrownockException;
 
 public class WallActivity extends BaseActivity {
 	private AppBar appbar;

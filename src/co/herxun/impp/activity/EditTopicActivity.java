@@ -1,30 +1,18 @@
 package co.herxun.impp.activity;
 
-import java.util.Set;
-
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.RelativeLayout;
 import co.herxun.impp.R;
-import co.herxun.impp.R.color;
-import co.herxun.impp.R.drawable;
-import co.herxun.impp.R.id;
-import co.herxun.impp.R.layout;
-import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.im.controller.IMManager;
-import co.herxun.impp.im.model.Chat;
 import co.herxun.impp.im.model.Topic;
 import co.herxun.impp.utils.Constant;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
 import co.herxun.impp.view.MaterialEditText;
-import android.app.Activity;
-import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.RelativeLayout;
 
 public class EditTopicActivity extends BaseActivity {
 	private AppBar mAppBar;

@@ -37,9 +37,12 @@ public class SettingFragment extends BaseFragment {
 	private UserDetailView mUserDetailView;
 	private Dialog mActionDialog;
 	
+	public SettingFragment() {
+		this("");
+	}
+	
 	public SettingFragment(String title) {
 		super(title);
-		
 	}
 
 	@Override

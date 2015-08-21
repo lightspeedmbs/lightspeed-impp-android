@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,20 +12,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import co.herxun.impp.R;
 import co.herxun.impp.adapter.PostListAdapter;
-import co.herxun.impp.controller.SocialManager;
-import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.controller.WallManager;
 import co.herxun.impp.controller.WallManager.FetchPostsCallback;
-import co.herxun.impp.model.Like;
 import co.herxun.impp.model.Post;
 import co.herxun.impp.utils.DBug;
 import co.herxun.impp.utils.Utils;
@@ -131,12 +125,17 @@ public class WallView extends SwipeRefreshLayout implements Observer{
 	}
 
 	public void initWallData(){
+		setRefreshing(true);
 		postIdIndexMap = new HashMap<String,Integer>();
 		mWallManager.init(new FetchPostsCallback(){
 			@Override
 			public void onFailure(String errorMsg) {
 				setRefreshing(false);
 				DBug.e("mWallManager.onFailure",errorMsg);
+				
+				if(mListView.getFooterViewsCount()>0){
+					mListView.removeFooterView(footer);
+				}
 			}
 
 			@Override
@@ -146,6 +145,10 @@ public class WallView extends SwipeRefreshLayout implements Observer{
 					postIdIndexMap.put(data.get(i).postId, i);
 				}
 				mPostListAdapter.applyData(data);
+				
+				if(mListView.getFooterViewsCount()>0){
+					mListView.removeFooterView(footer);
+				}
 			}
 		});
 	}

@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/no5"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <co.herxun.impp.view.AppBar
+        android:id="@+id/cs_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/no1" />
+
+    <ListView
+        android:id="@+id/cs_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cs_app_bar" >
+
+    </ListView>
+    
+    <TextView
+        android:id="@+id/noCSLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cs_app_bar"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/no_cs"
+        android:textColor="@color/no9"
+        android:textSize="16sp" 
+        android:visibility="gone"/>
+</RelativeLayout>

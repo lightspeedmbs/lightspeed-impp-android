@@ -114,7 +114,7 @@ public class WallManager extends Observable{
 					public void run() {
 						if(callback!=null){
 							if(data.size()==0){
-								callback.onFailure("size=0");
+//							    callback.onFailure(ct.getResources().getString(R.string.general_no_data_error));
 							}else{
 								callback.onFinish(data);
 							}
@@ -183,11 +183,7 @@ public class WallManager extends Observable{
 									@Override
 									public void run() {
 										if(callback!=null){
-											if(posts.size()==0){
-												callback.onFailure("size=0");
-											}else{
-												callback.onFinish(posts);
-											}
+											callback.onFinish(posts);
 										}
 									}
 								});

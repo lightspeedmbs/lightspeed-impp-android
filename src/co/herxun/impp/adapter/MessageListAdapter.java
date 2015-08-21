@@ -49,6 +49,10 @@ public class MessageListAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
+	public Map<String,ChatUser> getUserMap(){
+        return userMap;
+    }
+	
 	public void applyData(List<Message> msgs){
 		msgList.clear();
 		msgList.addAll(msgs);
@@ -127,7 +131,7 @@ public class MessageListAdapter extends BaseAdapter {
 			view = new MessageListItem(parent.getContext());
 		}
 		
-		view.setOwner(msgList.get(position).isMine(), userMap.get(msgList.get(position).fromClient));
+		view.setOwner(msgList.get(position), userMap.get(msgList.get(position).fromClient));
 		view.setMessageData(msgList.get(position));
 		
 		

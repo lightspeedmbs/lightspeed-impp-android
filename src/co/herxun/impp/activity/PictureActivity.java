@@ -1,22 +1,14 @@
 package co.herxun.impp.activity;
 
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import co.herxun.impp.R;
-import co.herxun.impp.R.anim;
-import co.herxun.impp.R.drawable;
-import co.herxun.impp.R.id;
-import co.herxun.impp.R.layout;
-import co.herxun.impp.R.string;
 import co.herxun.impp.imageloader.ImageLoader;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
 import co.herxun.impp.view.TouchImageView;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 
 public class PictureActivity extends BaseActivity {
 	private AppBar mAppbar;

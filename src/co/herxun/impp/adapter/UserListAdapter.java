@@ -7,18 +7,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.arrownock.exception.ArrownockException;
 import com.arrownock.social.IAnSocialCallback;
 
 import co.herxun.impp.R;
-import co.herxun.impp.activity.SearchUserActivity;
 import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.controller.UserManager.FetchFriendCallback;
-import co.herxun.impp.controller.UserManager.FetchUserCallback;
-import co.herxun.impp.im.controller.IMManager;
-import co.herxun.impp.im.controller.IMManager.FetchLocalTopicCallback;
-import co.herxun.impp.im.model.Topic;
-import co.herxun.impp.im.model.TopicMember;
 import co.herxun.impp.model.Friend;
 import co.herxun.impp.model.User;
 import co.herxun.impp.utils.DBug;
@@ -27,17 +20,13 @@ import co.herxun.impp.view.UserListItem;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 public class UserListAdapter extends BaseAdapter {
 	private List<User> userList;
@@ -75,19 +64,16 @@ public class UserListAdapter extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return userList.size();
 	}
 
 	@Override
 	public User getItem(int position) {
-		// TODO Auto-generated method stub
 		return userList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -146,17 +132,19 @@ public class UserListAdapter extends BaseAdapter {
 				textFriendStatus.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
+						DBug.e(user.userName, user.clientId);
+						textFriendStatus.setText(R.string.friend_request_status_requesting);
+						
 						UserManager.getInstance(ct).sendFriendRequest(user,new IAnSocialCallback(){
 							@Override
 							public void onFailure(JSONObject arg0) {
-								
+								textFriendStatus.setText(R.string.friend_request_status_add);
 							}
 
 							@Override
 							public void onSuccess(JSONObject arg0) {
 								refreshFriendStatus();
 							}
-							
 						});
 					}
 				});

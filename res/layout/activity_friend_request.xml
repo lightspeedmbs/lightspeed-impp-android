@@ -17,5 +17,16 @@
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true" >
     </ListView>
-
+	
+    <TextView
+        android:id="@+id/noRequestLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/no_friend_request"
+        android:textColor="@color/no9"
+        android:textSize="16sp" 
+        android:visibility="visible"/>
 </RelativeLayout>

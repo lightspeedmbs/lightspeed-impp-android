@@ -1,50 +1,26 @@
 package co.herxun.impp.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.arrownock.exception.ArrownockException;
-import com.arrownock.social.IAnSocialCallback;
-
 import co.herxun.impp.R;
-import co.herxun.impp.R.layout;
 import co.herxun.impp.adapter.FriendRequestListAdapter;
-import co.herxun.impp.adapter.UserListAdapter;
-import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.im.controller.IMManager;
-import co.herxun.impp.model.FriendRequest;
-import co.herxun.impp.utils.DBug;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView.OnEditorActionListener;
 
 public class FriendRequestActivity extends BaseActivity implements Observer{
 	private AppBar mAppbar;
 	private ListView mListView;
 	private FriendRequestListAdapter mFriendRequestListAdapter;
+	private TextView noRequestLabel;
+	TextView textTitle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +32,7 @@ public class FriendRequestActivity extends BaseActivity implements Observer{
 	}
 	
 	private void initView(){
+		noRequestLabel = (TextView) findViewById(R.id.noRequestLabel);
 		mAppbar = (AppBar)findViewById(R.id.toolbar);
 		mAppbar.getLogoView().setImageResource(R.drawable.menu_back);
 		mAppbar.getLogoView().setLayoutParams(new RelativeLayout.LayoutParams(Utils.px2Dp(this, 56),Utils.px2Dp(this, 56)));
@@ -70,7 +47,7 @@ public class FriendRequestActivity extends BaseActivity implements Observer{
         mListView.setDivider(null);
         mListView.setDividerHeight(0);
         
-		TextView textTitle = new TextView(this);
+		textTitle = new TextView(this);
 		textTitle.setPadding(Utils.px2Dp(this, 16), Utils.px2Dp(this,24), 0, Utils.px2Dp(this, 8));
 		textTitle.setText(R.string.friend_friend_request);
 		mListView.addHeaderView(textTitle);
@@ -79,6 +56,18 @@ public class FriendRequestActivity extends BaseActivity implements Observer{
 		
 		mFriendRequestListAdapter.fetchRemoteData(true);
 		
+		mListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        	@Override
+        	public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        		if(mFriendRequestListAdapter.getCount() > 0) {
+        			noRequestLabel.setVisibility(View.GONE);
+        			textTitle.setVisibility(View.VISIBLE);
+        		} else {
+        			noRequestLabel.setVisibility(View.VISIBLE);
+        			textTitle.setVisibility(View.GONE);
+        		}
+        	}
+        });
 	}
 
 	@Override

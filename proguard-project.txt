@@ -18,3 +18,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-libraryjars /libs/testinagent.jar
+-dontwarn com.testin.agent.**
+-keep class com.testin.agent.** {*;}
+-keepattributes SourceFile, LineNumberTable

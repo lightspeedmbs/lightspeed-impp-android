@@ -16,4 +16,22 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
+    <style name="noAlpha" parent="@android:style/Theme.Dialog">
+        <item name="android:alpha">0xFF</item>
+    </style>
+    
+    <style name="LoadingProgress">
+        <item name="android:indeterminateDrawable">@drawable/loading_rotate</item>
+        <item name="android:minWidth">32dip</item>
+        <item name="android:maxWidth">32dip</item>
+        <item name="android:minHeight">32dip</item>
+        <item name="android:maxHeight">32dip</item>
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+    </style>
+    
+    <style name="AlertDialogProductMsg">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

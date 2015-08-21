@@ -1,39 +1,23 @@
 package co.herxun.impp.activity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.activeandroid.query.Select;
-import com.arrownock.exception.ArrownockException;
-
-import co.herxun.impp.R;
-import co.herxun.impp.R.layout;
-import co.herxun.impp.adapter.UserListAdapter;
-import co.herxun.impp.controller.UserManager;
-import co.herxun.impp.controller.UserManager.FetchFriendCallback;
-import co.herxun.impp.controller.UserManager.FetchUserCallback;
-import co.herxun.impp.im.controller.IMManager;
-import co.herxun.impp.model.Friend;
-import co.herxun.impp.model.User;
-import co.herxun.impp.utils.Constant;
-import co.herxun.impp.utils.DBug;
-import co.herxun.impp.utils.Utils;
-import co.herxun.impp.view.AppBar;
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.OnEditorActionListener;
+import co.herxun.impp.R;
+import co.herxun.impp.adapter.UserListAdapter;
+import co.herxun.impp.controller.UserManager;
+import co.herxun.impp.controller.UserManager.FetchUserCallback;
+import co.herxun.impp.model.User;
+import co.herxun.impp.utils.Utils;
+import co.herxun.impp.view.AppBar;
 
 public class SearchUserActivity extends BaseActivity {
 	private AppBar mAppbar;
@@ -84,22 +68,10 @@ public class SearchUserActivity extends BaseActivity {
         mListView.setDividerHeight(0);
 		mUserListAdapter = new UserListAdapter(this);
 		mListView.setAdapter(mUserListAdapter);
-        mListView.setOnItemClickListener(new OnItemClickListener(){
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-
-				Map<String,String> c_data = new HashMap<String,String>();
-				try {
-					String s = IMManager.getInstance(SearchUserActivity.this).getAnIM().sendBinary(mUserListAdapter.getItem(position).clientId, new byte[1], "test",c_data);
-				} catch (ArrownockException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-        });
 	}
 	
 	public void fillRemoteData(String username){
+		showLoading();
 		UserManager.getInstance(this).searchRemoteUser(username, new FetchUserCallback(){
 			@Override
 			public void onFinish(final List<User> users) {
@@ -109,6 +81,7 @@ public class SearchUserActivity extends BaseActivity {
 						mUserListAdapter.applyData(users);
 					}
 				});
+				dismissLoading();
 			}
 		});
 	}

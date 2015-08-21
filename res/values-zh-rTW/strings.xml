@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    
+    
+    
+    
+    
+    
     <string name="app_name">IM++</string>
     <string name="tab_title_chat">聊天</string>
     <string name="tab_title_friend">好友</string>
-    <string name="tab_title_explore">發現</string>
+    <string name="tab_title_explore">交響圈</string>
     <string name="tab_title_setting">設定</string>
-
+	<string name="tab_title_media">自媒圈</string>
+    <string name="tab_title_annoncement">公告圈</string>
+    <string name="tab_coming_soon">即將推出</string>
+    
     <!-- General -->
+    <string name="welcome_message_from_default_user"></string>
+    <string name="general_okay">好</string>
     <string name="general_ok">確定</string>
+    <string name="loading">載入中...</string>
     <string name="general_cancel">取消</string>
     <string name="general_press_again_to_exit">再按一次退出應用程式</string>
-    
+    <string name="general_no_data_error">暫時沒有更多資料</string>
+
     <!-- Login -->
     <string name="login_sign_up">註冊</string>
     <string name="login_sign_in">登入</string>
@@ -27,7 +39,8 @@
     <string name="friend_action_new_topic">新增群組聊天</string>
     <string name="friend_search_username">搜尋好友名稱</string>
     <string name="friend_request_status_add">加入好友</string>
-    <string name="friend_request_status_sent">送出請求</string>
+    <string name="friend_request_status_sent">請求已發送</string>
+    <string name="friend_request_status_requesting">發送請求...</string>
     <string name="friend_request_status_isfriend">已是好友</string>
     <string name="friend_request_status_approved">已接受</string>
     <string name="friend_request_status_rejected">已拒絕</string>
@@ -37,7 +50,9 @@
     <string name="friend_request_rejected">拒絕好友請求成功</string>
     <string name="friend_request_accepted">好友邀請同意</string>
     <string name="friend_request_received">收到好友邀請</string>
-
+	<string name="no_friend">目前還沒有好友, 趕快去加一個吧 :)</string>
+	<string name="no_friend_request">目前還沒有好友請求</string>
+	
     <!-- Chat -->
     <string name="readed">已讀</string>
     <string name="morning">上午</string>
@@ -64,7 +79,8 @@
     <string name="chat_topic_leave">退出群組</string>
     <string name="chat_topic_leave_owner">退出群組並解散群組</string>
     <string name="chat_delete_chat_confirm">確定要刪除此聊天嗎？</string>
-    
+	<string name="no_chat">目前沒有聊天信息</string>
+	
     <!-- Live -->
     <string name="anlive_received_voice_invitation">語音通話來電中...</string>
     <string name="anlive_received_video_invitation">視訊通話來電中...</string>
@@ -80,23 +96,50 @@
     <string name="anlive_disable_camera">關閉鏡頭</string>
     <string name="anlive_push_call">語音通話來電</string>
     <string name="anlive_push_video_call">視訊通話來電</string>
+    <string name="anlive_connecting">連接中...</string>
 
     <!-- Settings -->
     <string name="else_sign_out">登出</string>
     <string name="setting_send_msg">傳送訊息</string>
-    
+
     <!-- Notification -->
     <string name="noti_image">向您傳送了圖片</string>
     <string name="noti_record">您收到來自 # 的聲音訊息</string>
     <string name="noti_voice_call">語音通話來電中</string>
     <string name="noti_video_call">視訊通話來電中</string>
-    
+
     <!-- Wall -->
     <string name="wall_circle">朋友圈</string>
+    <string name="wall_room">討論圈</string>
+    <string name="room_header_description">討論圈簡介</string>
+    <string name="room_header_join_btn">加入</string>
+    <string name="room_header_quit_btn">退出</string>
     <string name="wall_like">讚</string>
     <string name="wall_comment">留言</string>
     <string name="wall_create_post">撰寫貼文…</string>
+    <string name="wall_create_room">討論圈名稱</string>
+    <string name="wall_create_room_description">討論圈簡介</string>
     <string name="wall_create_post_title">新增貼文</string>
+    <string name="wall_create_room_title">建立討論圈</string>
     <string name="wall_comment_reply">回覆</string>
+    <string name="wall_create_post_error">圖片或者內容至少輸入一項</string>
+    <string name="wall_create_room_error">名稱、簡介和封面圖片皆為必填</string>
+    <string name="no_room">目前還沒有圈子, 趕快去創建一個吧 :)</string>
 
+    <!-- CustomService -->
+    <string name="cs_help_desk">客服圈</string>
+    <string name="cs_room_list">討論圈</string>
+    <string name="cs_products">產品介紹</string>
+    <string name="cs_services">服務項目</string>
+    <string name="cs_contact_us">聯絡我們</string>
+    <string name="cs_vip">聯絡線上客服</string>
+    <string name="cs_offine">離線</string>
+    <string name="cs_online">線上</string>
+    <string name="cs_back">返回</string>
+    <string name="no_cs">目前還沒有可以聯絡的客服專員</string>
+    
+    <!-- IM -->
+    <string name="im_kick_off">您已經在另一台裝置上登入此帳號，現在將會被自動登出</string>
+    <string name="im_disconnect">IM Disconnect</string>
+    <string name="im_connect">IM Connect</string>
 </resources>

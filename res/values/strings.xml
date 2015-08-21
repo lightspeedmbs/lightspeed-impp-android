@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="splash_title">赫迅互動科技有限公司</string>
     <string name="app_key"></string>
     <string name="wall_id"></string>
+    <string name="default_friend_id"></string>
+    <string name="testin_apm"></string>
     
     <string name="app_name">IM++</string>
     <string name="tab_title_chat">Chat</string>
     <string name="tab_title_friend">Friends</string>
-    <string name="tab_title_explore">Discover</string>
+    <string name="tab_title_explore">AppO</string>
     <string name="tab_title_setting">Settings</string>
-
+	<string name="tab_title_media">Media</string>
+    <string name="tab_title_annoncement">Bulletin</string>
+    <string name="tab_coming_soon">coming soon</string>
+    
     <!-- General -->
+    <string name="welcome_message_from_default_user"></string>
+    <string name="general_okay">OK</string>
     <string name="general_ok">OK</string>
+    <string name="loading">Loading...</string>
     <string name="general_cancel">Cancel</string>
     <string name="general_press_again_to_exit">Click again to exit application</string>
+    <string name="general_no_data_error">No more data</string>
 
     <!-- Login -->
     <string name="login_sign_up">Sign Up</string>
@@ -31,6 +40,7 @@
     <string name="friend_search_username">Search by Name</string>
     <string name="friend_request_status_add">Add</string>
     <string name="friend_request_status_sent">Sent</string>
+    <string name="friend_request_status_requesting">Sending...</string>
     <string name="friend_request_status_isfriend">Friends</string>
     <string name="friend_request_status_approved">Accepted</string>
     <string name="friend_request_status_rejected">Declined</string>
@@ -40,6 +50,8 @@
     <string name="friend_request_rejected">Rejected Friend Request</string>
     <string name="friend_request_accepted">Accepted Friend Request</string>
     <string name="friend_request_received">Received Friend Request</string>
+    <string name="no_friend">No friend connection yet</string>
+    <string name="no_friend_request">No new friend request</string>
 
     <!-- Chat -->
     <string name="readed">Read</string>
@@ -67,7 +79,8 @@
     <string name="chat_topic_leave">Leave Group</string>
     <string name="chat_topic_leave_owner">Delete Group</string>
     <string name="chat_delete_chat_confirm">Delete this chat?</string>
-
+	<string name="no_chat">No chat history</string>
+	
     <!-- Live -->
     <string name="anlive_received_voice_invitation">Incoming Call…</string>
     <string name="anlive_received_video_invitation">Incoming Video Call…</string>
@@ -81,9 +94,10 @@
     <string name="anlive_accept">Accept</string>
     <string name="anlive_enable_camera">Camera On</string>
     <string name="anlive_disable_camera">Camera Off</string>
-    <string name="anlive_push_call">語音通話來電</string>
-    <string name="anlive_push_video_call">視訊通話來電</string>
-
+    <string name="anlive_push_call">Incoming Call</string>
+    <string name="anlive_push_video_call">Incoming Video Call</string>
+	<string name="anlive_connecting">Connecting...</string>
+	
     <!-- Settings -->
     <string name="else_sign_out">Logout</string>
     <string name="setting_send_msg">Chat</string>
@@ -95,16 +109,37 @@
     <string name="noti_video_call">Incoming Video Call…</string>
 
     <!-- Wall -->
-    <string name="wall_circle">Timeline</string>
+    <string name="wall_circle">Moments</string>
+    <string name="wall_room">Forums</string>
+    <string name="room_header_description">Description</string>
+    <string name="room_header_join_btn">Join</string>
+    <string name="room_header_quit_btn">Leave</string>
     <string name="wall_like">Like</string>
     <string name="wall_comment">Comment</string>
     <string name="wall_create_post">Say something…</string>
+    <string name="wall_create_room">Name</string>
+    <string name="wall_create_room_description">Description</string>
     <string name="wall_create_post_title">New Post</string>
+    <string name="wall_create_room_title">New Forum</string>
     <string name="wall_comment_reply">Replied</string>
-    
- 	<!-- IM -->
+    <string name="wall_create_post_error">Please enter text or photo</string>
+    <string name="wall_create_room_error">Name,  Description and Cover Photo are all required</string>
+    <string name="no_room">There are no Rooms yet. Be the first to create one ：）</string>
+
+    <!-- CustomService -->
+    <string name="cs_help_desk">Help Desk</string>
+    <string name="cs_room_list">Forums</string>
+    <string name="cs_products">Products</string>
+    <string name="cs_services">Services</string>
+    <string name="cs_contact_us">Contact Us</string>
+    <string name="cs_vip">Contact help desk</string>
+    <string name="cs_offine">Offline</string>
+    <string name="cs_online">Online</string>
+    <string name="cs_back">Back</string>
+	<string name="no_cs">There are no customer representatives</string>
+
+    <!-- IM -->
+    <string name="im_kick_off">You have been automatically logged out since you\'ve logged in this account from another device.</string>
     <string name="im_disconnect">IM Disconnect</string>
     <string name="im_connect">IM Connect</string>
- 	
-
 </resources>

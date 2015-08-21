@@ -1,46 +1,30 @@
 package co.herxun.impp.activity;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import com.arrownock.exception.ArrownockException;
-import com.arrownock.im.callback.AnIMCreateTopicCallbackData;
-
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import co.herxun.impp.R;
-import co.herxun.impp.R.layout;
 import co.herxun.impp.adapter.UserChooseListAdapter;
 import co.herxun.impp.adapter.UserChooseListAdapter.ChooseListener;
-import co.herxun.impp.adapter.UserListAdapter;
 import co.herxun.impp.controller.UserManager;
 import co.herxun.impp.controller.UserManager.FetchUserCallback;
 import co.herxun.impp.im.controller.IMManager;
 import co.herxun.impp.im.model.Topic;
 import co.herxun.impp.model.User;
 import co.herxun.impp.utils.Constant;
-import co.herxun.impp.utils.DBug;
 import co.herxun.impp.utils.Utils;
 import co.herxun.impp.view.AppBar;
-import android.app.Activity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView.OnEditorActionListener;
 
 public class CreateTopicActivity extends BaseActivity  implements Observer{
 	private AppBar mAppbar;

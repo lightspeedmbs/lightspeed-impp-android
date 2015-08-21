@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import co.herxun.impp.utils.DBug;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;

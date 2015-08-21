@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import co.herxun.impp.R;
+import co.herxun.impp.activity.HelpDeskActivity;
+import co.herxun.impp.activity.MainActivity;
+import co.herxun.impp.activity.RoomListActivity;
 import co.herxun.impp.activity.WallActivity;
 import co.herxun.impp.utils.DBug;
 import co.herxun.impp.view.BadgeView;
@@ -23,6 +26,10 @@ public class ExploreFragment extends BaseFragment {
 		super(title);
 		handler = new Handler();
 	}
+	
+	public ExploreFragment() {
+	    this("");
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -53,6 +60,31 @@ public class ExploreFragment extends BaseFragment {
 				startActivity(i);
 				getActivity().overridePendingTransition(R.anim.slide_in_right,android.R.anim.fade_out);
 			}
+        });
+        
+        fragView.findViewById(R.id.explore_btn_customservice).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(),HelpDeskActivity.class);
+				startActivity(i);
+				getActivity().overridePendingTransition(R.anim.slide_in_right,android.R.anim.fade_out);
+			}
+        });
+        
+        fragView.findViewById(R.id.explore_btn_group).setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),RoomListActivity.class);
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,android.R.anim.fade_out);
+            }
+        });
+        fragView.findViewById(R.id.explore_btn_chat).setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                MainActivity activity = (MainActivity)getActivity();
+                activity.mViewPager.setCurrentItem(1);
+            }
         });
 	}
 	

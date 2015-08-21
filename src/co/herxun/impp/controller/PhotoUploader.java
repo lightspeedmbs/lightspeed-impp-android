@@ -31,7 +31,8 @@ public class PhotoUploader{
 		this.callback = callback;
 		curretIndex = 0;
 		
-		handler = new Handler();
+		
+		handler = new Handler(ct.getMainLooper());
 		urlList = new ArrayList<String>();
 		mUploadRunnable = new UploadRunnable();
 		

@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/picture_app_bar"
-        android:src="@drawable/abc_ab_share_pack_holo_dark" />
+        android:src="@drawable/abc_ab_share_pack_holo_dark" 
+        android:background="#000000"/>
 
 </RelativeLayout>

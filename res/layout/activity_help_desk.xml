@@ -1,0 +1,202 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/no5"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <co.herxun.impp.view.AppBar
+        android:id="@+id/helpdesk_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/no1" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+			
+            <RelativeLayout
+                android:id="@+id/helpdesk_btn_customservice"
+                android:layout_width="match_parent"
+                android:layout_height="66dp" 
+                android:background="@drawable/click_selector">
+
+                <ImageView
+                    android:id="@+id/ImageView01"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/explore_circle" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/no7" />
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ImageView01"
+                    android:text="@string/cs_vip"
+                    android:textColor="@color/no11"
+                    android:textSize="16dp" />
+
+                <co.herxun.impp.view.BadgeView
+                    android:id="@+id/BadgeView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:text="0" />
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/RelativeLayout03"
+                android:layout_width="match_parent"
+                android:layout_height="72dp" >
+
+                <ImageView
+                    android:id="@+id/ImageView04"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/explore_circle" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/no7"/>
+
+                <TextView
+                    android:id="@+id/TextView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ImageView04"
+                    android:text="@string/cs_products"
+                    android:textColor="@color/no7"
+                    android:textSize="16dp" />
+
+                <co.herxun.impp.view.BadgeView
+                    android:id="@+id/BadgeView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:text="0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout02"
+                android:layout_width="match_parent"
+                android:layout_height="66dp" >
+
+                <ImageView
+                    android:id="@+id/ImageView03"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/explore_circle" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/no7"/>
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ImageView03"
+                    android:text="@string/cs_services"
+                    android:textColor="@color/no7"
+                    android:textSize="16dp" />
+
+                <co.herxun.impp.view.BadgeView
+                    android:id="@+id/BadgeView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:text="0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="66dp" >
+
+                <ImageView
+                    android:id="@+id/ImageView02"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/explore_circle" />
+
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/no7"/>
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ImageView02"
+                    android:text="@string/cs_contact_us"
+                    android:textColor="@color/no7"
+                    android:textSize="16dp" />
+
+                <co.herxun.impp.view.BadgeView
+                    android:id="@+id/BadgeView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:text="0" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

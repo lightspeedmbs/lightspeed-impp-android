@@ -128,7 +128,7 @@ public class MaterialEditText extends FrameLayout {
 			} while(state != XmlPullParser.END_DOCUMENT);
 	        return null;
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 	        return null;
 		}
 		

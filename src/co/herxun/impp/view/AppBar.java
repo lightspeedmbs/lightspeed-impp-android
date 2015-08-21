@@ -1,9 +1,5 @@
 package co.herxun.impp.view;
 
-import java.util.ArrayList;
-
-import co.herxun.impp.R;
-import co.herxun.impp.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils.TruncateAt;
@@ -15,8 +11,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
+import co.herxun.impp.R;
+import co.herxun.impp.utils.Utils;
 
 public class AppBar extends RelativeLayout {
 	private ImageView logo, menuItem;
@@ -48,7 +45,7 @@ public class AppBar extends RelativeLayout {
 		etSearch.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		etSearch.setBackgroundColor(Color.TRANSPARENT);
 		etSearch.setGravity(Gravity.CENTER_VERTICAL);
-		etSearch.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+		etSearch.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
 		etSearch.setTextColor(ct.getResources().getColor(R.color.no5));
 		etSearch.setHintTextColor(0x4cffffff);
 		etSearch.setPadding(0, 0, 0, 0);

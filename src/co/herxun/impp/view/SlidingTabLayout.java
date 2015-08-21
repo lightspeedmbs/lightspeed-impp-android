@@ -205,7 +205,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	        setLayoutParams(new LinearLayout.LayoutParams(
 	                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-	        int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+	        int padding = (int) ((TAB_VIEW_PADDING_DIPS - 1) * getResources().getDisplayMetrics().density);
 	        setPadding(0, padding, 0, padding);
 	        
 			textView = new TextView(context);

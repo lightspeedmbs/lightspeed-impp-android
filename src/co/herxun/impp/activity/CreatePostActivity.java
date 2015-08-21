@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ public class CreatePostActivity extends BaseActivity {
 		appbar.getMenuItemView().setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+			    showLoading();
 				createPost();
 			}
 		});
@@ -157,6 +159,8 @@ public class CreatePostActivity extends BaseActivity {
 		}
 
 		if(data.size()==0 && etContent.getText().toString().length()==0){
+		    dismissLoading();
+		    Toast.makeText(this, getString(R.string.wall_create_post_error), Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -167,10 +171,12 @@ public class CreatePostActivity extends BaseActivity {
 					public void onFailure(JSONObject arg0) {
 						DBug.e("createPost.onFailure",arg0.toString());
 						appbar.getMenuItemView().setEnabled(true);
+						dismissLoading();
 					}
 					@Override
 					public void onSuccess(JSONObject arg0) {
 						DBug.e("createPost.onSuccess",arg0.toString());
+						dismissLoading();
 						setResult(Activity.RESULT_OK);
 						onBackPressed();
 					}

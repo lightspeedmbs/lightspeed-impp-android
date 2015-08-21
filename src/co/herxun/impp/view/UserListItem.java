@@ -1,12 +1,11 @@
 package co.herxun.impp.view;
 
-import co.herxun.impp.R;
-import co.herxun.impp.imageloader.ImageLoader;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import co.herxun.impp.R;
+import co.herxun.impp.imageloader.ImageLoader;
 
 public class UserListItem extends RelativeLayout {
 	private ImageView imgIcon;

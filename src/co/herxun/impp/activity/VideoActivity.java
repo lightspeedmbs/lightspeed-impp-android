@@ -4,9 +4,8 @@ import java.util.Date;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -20,9 +19,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import co.herxun.impp.IMppApp;
 import co.herxun.impp.R;
 import co.herxun.impp.controller.UserManager;
@@ -47,7 +45,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
     private TextView textUserName;
     private TextView textStatus;
     private LinearLayout controlView, functionView, userInfoView;
-    private View touchView,viewTopMargin;
+    private View touchView, viewTopMargin;
 
     public static final int INVITATION_RECEIVED = 0;
     public static final int INVITATION_SEND = 1;
@@ -66,6 +64,8 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
 
     private Handler timingHandler;
     private Runnable timingRunnable;
+    
+    private int audioMode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +91,11 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
     }
 
     private void initView() {
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioMode = audioManager.getMode();
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setSpeakerphoneOn(true);
+        
         btnAnswer = (Button) findViewById(R.id.btnAnswer);
         btnReject = (Button) findViewById(R.id.btnReject);
         remoteVideoView = (FrameLayout) findViewById(R.id.remoteVideoView);
@@ -107,7 +112,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         touchView = (View) findViewById(R.id.viewTouch);
         viewTopMargin = (View) findViewById(R.id.live_top_margin);
         userInfoFrame = (FrameLayout) findViewById(R.id.userInfoFrame);
-        
+
         localVideoView.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View view, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -130,10 +135,12 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         btnAnswer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                btnAnswer.setVisibility(View.GONE);
+                btnReject.setText(getString(R.string.anlive_hangup));
+                Toast.makeText(getBaseContext(), getString(R.string.anlive_connecting), Toast.LENGTH_LONG).show();
                 try {
                     mApp.anLive.answer(true);
                 } catch (ArrownockException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -145,7 +152,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
                     mApp.anLive.hangup();
                 }
                 finish();
-        		overridePendingTransition(android.R.anim.fade_in,R.anim.push_up_out);
+                overridePendingTransition(android.R.anim.fade_in, R.anim.push_up_out);
             }
         });
         btnHangUp.setOnClickListener(new OnClickListener() {
@@ -155,7 +162,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
                     mApp.anLive.hangup();
                 }
                 finish();
-        		overridePendingTransition(android.R.anim.fade_in,R.anim.push_up_out);
+                overridePendingTransition(android.R.anim.fade_in, R.anim.push_up_out);
             }
         });
         btnMute.setOnClickListener(new OnClickListener() {
@@ -178,10 +185,16 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
                 controlUIVisibleTime = 0;
                 if (enableVideo) {
                     localVideoView.setVisibility(View.GONE);
+                    if (localVideoView.getChildAt(0) != null) {
+                        localVideoView.getChildAt(0).setVisibility(View.GONE);
+                    }
                     mApp.anLive.setVideoState(VideoState.OFF);
                     btnDisableCamera.setText(R.string.anlive_enable_camera);
                 } else {
                     localVideoView.setVisibility(View.VISIBLE);
+                    if (localVideoView.getChildAt(0) != null) {
+                        localVideoView.getChildAt(0).setVisibility(View.VISIBLE);
+                    }
                     mApp.anLive.setVideoState(VideoState.ON);
                     btnDisableCamera.setText(R.string.anlive_disable_camera);
                 }
@@ -211,12 +224,12 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
             btnDisableCamera.setVisibility(View.GONE);
             textStatus.setText(R.string.anlive_received_voice_invitation);
         }
-        
-    	controlView.setVisibility(View.GONE);
-    	functionView.setVisibility(View.GONE);
+
+        controlView.setVisibility(View.GONE);
+        functionView.setVisibility(View.GONE);
         switch (mode) {
         case INVITATION_RECEIVED:
-        	controlView.setVisibility(View.VISIBLE);
+            controlView.setVisibility(View.VISIBLE);
             if (type.equals("video")) {
                 textStatus.setText(R.string.anlive_received_video_invitation);
             } else if (type.equals("voice")) {
@@ -224,7 +237,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
             }
             break;
         case INVITATION_SEND:
-        	functionView.setVisibility(View.VISIBLE);
+            functionView.setVisibility(View.VISIBLE);
             textStatus.setText(R.string.anlive_waiting_reply);
             break;
         }
@@ -235,7 +248,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         if (show) {
             userInfoView.setVisibility(View.VISIBLE);
             userInfoView.animate().alpha(1).setDuration(300).setListener(null).start();
-        	switch (mode) {
+            switch (mode) {
             case INVITATION_RECEIVED:
                 controlView.setVisibility(View.VISIBLE);
                 controlView.animate().alpha(1).setDuration(300).start();
@@ -279,7 +292,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
                 functionView.animate().alpha(0).setDuration(300).start();
                 break;
             }
-            
+
         }
     }
 
@@ -310,18 +323,19 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         if (controlUIVisible) {
             controlUIVisibleTime++;
             if (controlUIVisibleTime >= 5) {
-            	if(type.equals(TYPE_VIDEO)){
+                if (type.equals(TYPE_VIDEO)) {
                     toggleControlUI(false);
-            	}
+                }
             }
         }
     }
 
     private void sendMsg() {
-//        if (ChatActivity.instance != null) {
-//            ChatActivity.instance.sendVideoCallNotice((type.equals(TYPE_VIDEO) ? "[视频" : "[语音") + "通话 " + getTimeStr()
-//                    + "]");
-//        }
+        // if (ChatActivity.instance != null) {
+        // ChatActivity.instance.sendVideoCallNotice((type.equals(TYPE_VIDEO) ?
+        // "[视频" : "[语音") + "通话 " + getTimeStr()
+        // + "]");
+        // }
     }
 
     private String getTimeStr() {
@@ -348,6 +362,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
 
     @Override
     public void onLocalVideoSizeChanged(int arg0, int arg1) {
+        Log.d("video", "video size change");
     }
 
     @Override
@@ -356,9 +371,9 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(Utils.px2Dp(view.getContext(), 96), view.getVideoHeight()
-                        * Utils.px2Dp(view.getContext(), 96) / view.getVideoWidth());
-                flp.gravity = Gravity.RIGHT | Gravity.TOP;
+                FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(Utils.px2Dp(view.getContext(), 96),
+                        view.getVideoHeight() * Utils.px2Dp(view.getContext(), 96) / view.getVideoWidth());
+                flp.gravity = Gravity.END | Gravity.BOTTOM;
                 view.setLayoutParams(flp);
                 localVideoView.removeAllViews();
                 localVideoView.addView(view);
@@ -372,14 +387,14 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            	ivPhoto.setVisibility(View.GONE);
-            	LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewTopMargin.getLayoutParams();
-            	lp.weight = 0.08f;
-            	viewTopMargin.setLayoutParams(lp);
-            	LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) userInfoFrame.getLayoutParams();
-            	lp2.weight = 0.92f;
-            	userInfoFrame.setLayoutParams(lp2);
-            	
+                ivPhoto.setVisibility(View.GONE);
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewTopMargin.getLayoutParams();
+                lp.weight = 0.08f;
+                viewTopMargin.setLayoutParams(lp);
+                LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) userInfoFrame.getLayoutParams();
+                lp2.weight = 0.92f;
+                userInfoFrame.setLayoutParams(lp2);
+
                 DisplayMetrics metric = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(metric);
                 int height = metric.heightPixels;
@@ -400,24 +415,26 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
 
     @Override
     public void onRemotePartyAudioStateChanged(String arg0, final AudioState arg1) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (arg1.equals(AudioState.ON)) {
-//                    ivState.setImageResource(R.drawable.ic_launcher);
-//
-//                    FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300, 300);
-//                    flp.gravity = Gravity.CENTER;
-//                    ivState.setLayoutParams(flp);
-//                } else {
-//                    ivState.setImageResource(R.drawable.menu_done);
-//
-//                    FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300, 300);
-//                    flp.gravity = Gravity.CENTER;
-//                    ivState.setLayoutParams(flp);
-//                }
-//            }
-//        });
+        // runOnUiThread(new Runnable() {
+        // @Override
+        // public void run() {
+        // if (arg1.equals(AudioState.ON)) {
+        // ivState.setImageResource(R.drawable.ic_launcher);
+        //
+        // FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300,
+        // 300);
+        // flp.gravity = Gravity.CENTER;
+        // ivState.setLayoutParams(flp);
+        // } else {
+        // ivState.setImageResource(R.drawable.menu_done);
+        //
+        // FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300,
+        // 300);
+        // flp.gravity = Gravity.CENTER;
+        // ivState.setLayoutParams(flp);
+        // }
+        // }
+        // });
     }
 
     @Override
@@ -442,7 +459,7 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
                     timingHandler.removeCallbacks(timingRunnable);
                 }
                 finish();
-        		overridePendingTransition(android.R.anim.fade_in,R.anim.push_up_out);
+                overridePendingTransition(android.R.anim.fade_in, R.anim.push_up_out);
             }
         });
     }
@@ -453,26 +470,31 @@ public class VideoActivity extends BaseActivity implements IAnLiveEventListener 
 
     @Override
     public void onRemotePartyVideoStateChanged(String arg0, final VideoState arg1) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (arg1.equals(VideoState.ON)) {
-//                    remoteVideoView.setVisibility(View.VISIBLE);
-//                } else {
-//                    remoteVideoView.setVisibility(View.INVISIBLE);
-//                    ivState.setImageResource(R.drawable.ic_launcher);
-//
-//                    FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300, 300);
-//                    flp.gravity = Gravity.CENTER;
-//                    ivState.setLayoutParams(flp);
-//                }
-//            }
-//        });
+        // runOnUiThread(new Runnable() {
+        // @Override
+        // public void run() {
+        // if (arg1.equals(VideoState.ON)) {
+        // remoteVideoView.setVisibility(View.VISIBLE);
+        // } else {
+        // remoteVideoView.setVisibility(View.INVISIBLE);
+        // ivState.setImageResource(R.drawable.ic_launcher);
+        //
+        // FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(300,
+        // 300);
+        // flp.gravity = Gravity.CENTER;
+        // ivState.setLayoutParams(flp);
+        // }
+        // }
+        // });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         VideoActivity.instance = null;
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setSpeakerphoneOn(false);
+        audioManager.setMode(audioMode);
+        audioMode = 0;
     }
 }
